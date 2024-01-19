@@ -2711,13 +2711,27 @@ input, select, textarea {
 					color: #ffffff !important;  /* color of text on hover */
 				}
 
+				/* slightly transparent fallback */
+				.tiles article > a h2 {
+					background-color: rgba(200,200,200,0.5);
+				}
+				
+				/* if backdrop support: very transparent and blurred */
+				@supports ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+					.tiles article > a h2 {
+						background-color: rgba(255,255,255,0.25);
+						-webkit-backdrop-filter: blur(10px) saturate(100%);
+						backdrop-filter: blur(10px) saturate(100%);
+					}
+				}
+
 				.tiles article > a h2 {
 					margin: 0;
 					width: 100%;
-					/* text-shadow: 0px 0.05em 0.01em #0e0e0e; */
-					background-color: rgba(255,255,255,0.2);
 					border-radius: 5px;
-  					backdrop-filter: blur(10px) saturate(100%);
+					/* text-shadow: 0px 0.05em 0.01em #0e0e0e; */
+					/* background-color: rgba(255,255,255,0.2);
+  					backdrop-filter: blur(10px) saturate(100%); */
 				}
 
 				.tiles article > a .content { /* header + description animation on hover */
