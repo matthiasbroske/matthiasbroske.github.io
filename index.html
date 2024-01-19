@@ -64,7 +64,8 @@
 							<section class="tiles">
 								<article class="magic-tile style">
 									<span class="image">
-										<img src="images/tiles/vampire-survivors-tile.png" alt="" />
+										<img class="active-tile" src="images/tiles/vampire-survivors-tile.gif"/>
+										<img class="static-tile" src="images/tiles/vampire-survivors-tile.png"/>
 									</span>
 									<a href="vampire-survivors.html">
 										<h2>Vampire Survivors Clone</h2>
@@ -75,7 +76,8 @@
 								</article>
 								<article class="magic-tile style">
 									<span class="image">
-										<img src="images/tiles/ray-tracing-renderer-tile.png" alt="" />
+										<img class="active-tile" src="images/tiles/ray-tracing-renderer-tile.gif"/>
+										<img class="static-tile" src="images/tiles/ray-tracing-renderer-tile.png"/>
 									</span>
 									<a href="ray-tracing.html">
 										<h2><mark>Ray Tracing Renderer</mark></h2>
@@ -86,7 +88,8 @@
 								</article>
 								<article class="magic-tile style">
 									<span class="image">
-										<img src="images/tiles/linked-plots-package-tile.png" alt="" />
+										<img class="active-tile" src="images/tiles/linked-plots-package-tile.gif"/>
+										<img class="static-tile" src="images/tiles/linked-plots-package-tile.png"/>
 									</span>
 									<a href="linked-plots.html">
 										<h2>Linked Plots Package</h2>
@@ -97,7 +100,8 @@
 								</article>
 								<article class="magic-tile style">
 									<span class="image">
-										<img src="images/tiles/planet-impact-tile.png" alt="" />
+										<img class="active-tile" src="images/tiles/planet-impact-tile.gif"/>
+										<img class="static-tile" src="images/tiles/planet-impact-tile.png"/>
 									</span>
 									<a href="planet-impact.html">
 										<h2>Planet Impact</h2>
@@ -108,7 +112,8 @@
 								</article>
 								<article class="magic-tile style">
 									<span class="image">
-										<img src="images/tiles/arctic-angler-tile.png" alt="" />
+										<img class="active-tile" src="images/tiles/arctic-angler-tile.gif"/>
+										<img class="static-tile" src="images/tiles/arctic-angler-tile.png"/>
 									</span>
 									<a href="artic-angler.html">
 										<h2>Arctic Angler</h2>
@@ -119,7 +124,8 @@
 								</article>
 								<article class="magic-tile style">
 									<span class="image">
-										<img src="images/tiles/inverse-kinematics-tile.png" alt="" />
+										<img class="active-tile" src="images/tiles/inverse-kinematics-tile.gif"/>
+										<img class="static-tile" src="images/tiles/inverse-kinematics-tile.png"/>
 									</span>
 									<a href="inverse-kinematics.html">
 										<h2>Inverse Kinematics</h2>
@@ -130,7 +136,8 @@
 								</article>
 								<article class="magic-tile style">
 									<span class="image">
-										<img src="images/tiles/fluids-tile.png" alt="" />
+										<img class="active-tile" src="images/tiles/fluids-tile.gif"/>
+										<img class="static-tile" src="images/tiles/fluids-tile.png"/>
 									</span>
 									<a href="stable-fluids.html">
 										<h2>Fluid Simulation</h2>
@@ -141,7 +148,8 @@
 								</article>
 								<article class="magic-tile style">
 									<span class="image">
-										<img src="images/tiles/cloth-tile.png" alt="" />
+										<img class="active-tile" src="images/tiles/cloth-tile.gif"/>
+										<img class="static-tile" src="images/tiles/cloth-tile.png"/>
 									</span>
 									<a href="cloth-simulation.html">
 										<h2>Cloth Simulation</h2>
@@ -152,7 +160,8 @@
 								</article>
 								<article class="magic-tile style">
 									<span class="image">
-										<img src="images/tiles/pathfinding-simulation-tile.png" alt="" />
+										<img class="active-tile" src="images/tiles/pathfinding-simulation-tile.gif"/>
+										<img class="static-tile" src="images/tiles/pathfinding-simulation-tile.png"/>
 									</span>
 									<a href="pathfinding-simulation.html">
 										<h2>Pathfinding Simulation</h2>
@@ -163,7 +172,8 @@
 								</article>
 								<article class="magic-tile style">
 									<span class="image">
-										<img src="images/tiles/hanzi-dachu-tile.png" alt="" />
+										<img class="active-tile" src="images/tiles/hanzi-dachu-tile.gif"/>
+										<img class="static-tile" src="images/tiles/hanzi-dachu-tile.png"/>
 									</span>
 									<a href="hanzi-dachu.html">
 										<h2>漢字大厨</h2>
@@ -174,7 +184,8 @@
 								</article>
 								<article class="magic-tile style">
 									<span class="image">
-										<img src="images/tiles/ray-marching-tile.png" alt="" />
+										<img class="active-tile" src="images/tiles/ray-marching-tile.gif"/>
+										<img class="static-tile" src="images/tiles/ray-marching-tile.png"/>
 									</span>
 									<a href="ray-marching.html">
 										<h2>Ray Marching</h2>
@@ -185,7 +196,8 @@
 								</article>
 								<article class="magic-tile style">
 									<span class="image">
-										<img src="images/tiles/hdr-tile.png" alt="" />
+										<img class="active-tile" src="images/tiles/hdr-tile.gif"/>
+										<img class="static-tile" src="images/tiles/hdr-tile.png"/>
 									</span>
 									<a href="hdr-bloom.html">
 										<h2>HDR Shaders + Bloom</h2>
@@ -234,14 +246,18 @@
 					// );
 					$(".magic-tile").hover(
 						function() {
-							var img = $(this).find("img");
-							var imageName = img.attr("src").split('.')[0];
-							img.attr("src", imageName + ".gif");
+							var activeImg = $(this).find(".active-tile");
+							var staticImg = $(this).find(".static-tile");
+							var imageName = activeImg.attr("src");
+							activeImg.attr("src", imageName);
+							activeImg.css('z-index', 0);
+							staticImg.css('z-index', -1);
 						},
 						function() {
-							var img = $(this).find("img");
-							var imageName = img.attr("src").split('.')[0];
-							img.attr("src", imageName + ".png");
+							var activeImg = $(this).find(".active-tile");
+							var staticImg = $(this).find(".static-tile");
+							activeImg.css('z-index', -1);
+							staticImg.css('z-index', 0);
 						}                         
 					);                 
 				});

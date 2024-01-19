@@ -3378,3 +3378,19 @@ input, select, textarea {
 {
 	width: 73.25%;
 }
+
+.testtest
+{
+	position: relative;
+}
+
+.static-tile
+{
+	z-index: 0;
+}
+
+.active-tile
+{
+	position: absolute;
+	z-index: -1;
+}
