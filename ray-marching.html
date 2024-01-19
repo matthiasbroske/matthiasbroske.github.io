@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Ray Marching</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="header">
+				</header>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<h2>Projects</h2>
+					<ul>
+						<li><a href="vampire-survivors.html">Vampire Survivors Clone</a></li>
+						<li><a href="ray-tracing.html">Ray Tracing Renderer</a></li>
+						<li><a href="linked-plots.html">Linked Plots Package</a></li>
+						<li><a href="planet-impact.html">Planet Impact</a></li>
+						<li><a href="artic-angler.html">Arctic Angler</a></li>
+						<li><a href="inverse-kinematics.html">Inverse Kinematics</a></li>
+						<li><a href="stable-fluids.html">Fluid Simulation</a></li>
+						<li><a href="cloth-simulation.html">Cloth Simulation</a></li>
+						<li><a href="pathfinding-simulation.html">Pathfinding Simulation</a></li>
+						<li><a href="hanzi-dachu.html">汉字大厨</a></li>
+						<li><a href="ray-marching.html">Ray Marching</a></li>
+						<li><a href="hdr-bloom.html">HDR Shaders + Bloom</a></li>
+					</ul>
+				</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<div class="project-header">
+								<h1 style="margin-bottom: 0.1em;">Ray Marching</h1>
+								<h2 style="margin-top: 1em;">Ray marched motion capture animations.</h2>
+								<figure class = "image main">
+									<img src="images/raymarching/header.gif">
+									<figcaption>Motion capture data rendered with a custom raymarching shader that allows nearby geometry to blend and deform.</figcaption>
+								</figure>
+							</div>
+							<div class="project-description">
+								<h2>Description</h2>
+								<p>This was my submission for a class project in <i>CSCI 4611: Programming Graphics and Games</i>. The goal of this project was to animate characters (originally ants, now "amorphous humanoid blobs") using motion capture data. I expanded on this by developing a custom raymarching shader that could be used to render the characters and their environment such that their forms merge and deform as they make contact with each other and the ground.</p>
+
+								<h2>Process</h2>
+								<p>To render each "bone" of the motion capture skeleton data, I passed the bone's transformation matrix to the raymarching shader, and used that matrix to transform the SDF for a primitive shape such as a capsule or a rounded cone. </p>
+								<p>The bumpy ground plane was created by offsetting the SDF for a plane with sin and cosine values varying over time.</p>
+								<p>I then applied the smooth min operation to combine the SDF of each primitive and create the merge/deform effect that appears when objects collide with one another.</p>
+								<p>Ambient, diffuse and specular lighting was calculated by deriving the normal information of surfaces from the SDF using a simple forward difference.</p>
+								<h2 style="margin-bottom: -0em;">Tools Used</h2>
+								<p style="margin-bottom: -0.25em;"><b>Languages:</b> C++, GLSL</p>
+								<p style="margin-bottom: -0em;"><b>Software:</b> <a href="https://github.com/ivlab/MinGfx">MinGfx</a></p>
+
+							</div>
+							
+							<!-- <span class="image main"><img src="images/vampire/header.gif" alt="" /></span> -->
+						</div>
+					</div>
+
+				<!-- Footer -->
+					<!-- Footer -->
+					<footer id="footer">
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/footer.js"></script>  
+			<script src="assets/js/header.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Fluid Simulation</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="header">
+				</header>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<h2>Projects</h2>
+					<ul>
+						<li><a href="vampire-survivors.html">Vampire Survivors Clone</a></li>
+						<li><a href="ray-tracing.html">Ray Tracing Renderer</a></li>
+						<li><a href="linked-plots.html">Linked Plots Package</a></li>
+						<li><a href="planet-impact.html">Planet Impact</a></li>
+						<li><a href="artic-angler.html">Arctic Angler</a></li>
+						<li><a href="inverse-kinematics.html">Inverse Kinematics</a></li>
+						<li><a href="stable-fluids.html">Fluid Simulation</a></li>
+						<li><a href="cloth-simulation.html">Cloth Simulation</a></li>
+						<li><a href="pathfinding-simulation.html">Pathfinding Simulation</a></li>
+						<li><a href="hanzi-dachu.html">汉字大厨</a></li>
+						<li><a href="ray-marching.html">Ray Marching</a></li>
+						<li><a href="hdr-bloom.html">HDR Shaders + Bloom</a></li>
+					</ul>
+				</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<div class="project-header">
+								<h1 style="margin-bottom: 0.5em;">Fluid Simulation</h1>
+								<a href="https://github.com/matthiasbroske/GPUStableFluids" class="button icon solid brands fa-github">GitHub</a>
+								<!-- <a style="text-decoration: none;" href="https://github.com/matthiasbroske/GPUStableFluids"><input type="button" value="Source Code"></a> -->
+								<h2 style="margin-top: 1em;">A GPU-accelerated Stable Fluids simulation.</h2>
+								<figure class = "image main">
+									<img src="images/fluid/header.gif">
+									<figcaption>High resolution 2D Stable Fluids simulation running on the GPU.</figcaption>
+								</figure>
+							</div>
+							<div class="project-description">
+								<h2>Description</h2>
+								<p>This was my submission for extra credit on a class project in <i>CSCI 5611: Animation & Planning in Games</i>. The goal of this extra credit was to create a realistic 2D fluid simulation by implementing the Stable Fluids simulation described in <a href="http://graphics.cs.cmu.edu/nsp/course/15-464/Fall09/papers/StamFluidforGames.pdf"> Jos Stam's infamous paper</a>. I took it a step further by running my simulation entirely on the GPU via compute shaders, allowing for an extremely high resolution real-time simulation.</p>
+
+								<h2>Demo</h2>
+								<figure class = "image main">
+									<img src="images/fluid/demo-1.gif">
+									<figcaption>High resolution fluid simulated in realtime using GPU Compute Shaders in Unity.</figcaption>
+								</figure>
+								
+								<h2>Other Applications</h2>
+								<p>I recently revisited this project, utilizing it to drive a wind simulation across thousands of grass blades generated procedurally on the GPU.</p>
+								<figure class = "image main">
+									<img src="images/fluid/demo-grass.gif">
+									<figcaption></figcaption>
+								</figure>
+								<p>I also expanded the simulation to 3D, to great effect:</p>
+								<figure class = "image main">
+									<img src="images/fluid/demo-3d.gif">
+									<figcaption>3D Stable Fluids simulation rendered with my custom volume rendering shader to give the appearance of fire.</figcaption>
+								</figure>
+
+								<h2 style="margin-bottom: -0em;">Tools Used</h2>
+								<p style="margin-bottom: -0.25em;"><b>Assets:</b> <a href="https://free3d.com/3d-model/vintage-computer-51842.html">Computer Model</a></p>
+								<p style="margin-bottom: -0.25em;"><b>Languages:</b> C#, HLSL</p>
+								<p><b>Software:</b> Unity</p>
+
+							</div>
+							
+							<!-- <span class="image main"><img src="images/vampire/header.gif" alt="" /></span> -->
+						</div>
+					</div>
+
+				<!-- Footer -->
+					<!-- Footer -->
+					<footer id="footer">
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/footer.js"></script>  
+			<script src="assets/js/header.js"></script>
+
+	</body>
+</html>

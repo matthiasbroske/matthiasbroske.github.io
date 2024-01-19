@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Vampire Survivors Clone</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+					</header>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<h2>Projects</h2>
+					<ul>
+						<li><a href="vampire-survivors.html">Vampire Survivors Clone</a></li>
+						<li><a href="ray-tracing.html">Ray Tracing Renderer</a></li>
+						<li><a href="linked-plots.html">Linked Plots Package</a></li>
+						<li><a href="planet-impact.html">Planet Impact</a></li>
+						<li><a href="artic-angler.html">Arctic Angler</a></li>
+						<li><a href="inverse-kinematics.html">Inverse Kinematics</a></li>
+						<li><a href="stable-fluids.html">Fluid Simulation</a></li>
+						<li><a href="cloth-simulation.html">Cloth Simulation</a></li>
+						<li><a href="pathfinding-simulation.html">Pathfinding Simulation</a></li>
+						<li><a href="hanzi-dachu.html">汉字大厨</a></li>
+						<li><a href="ray-marching.html">Ray Marching</a></li>
+						<li><a href="hdr-bloom.html">HDR Shaders + Bloom</a></li>
+					</ul>
+				</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<div class="project-header">
+								<h1 style="margin-bottom: 0.5em;">Vampire Survivors Clone</h1>
+								<!-- <a style="font-size:0.75em; letter-spacing: 0.25em; font-family: 'Courier', Courier, monospace;" href="https://github.com/matthiasbroske/VampireSurvivorsClone">Source Code <i class="fa fa-github"></i></a> -->
+								<a href="https://github.com/matthiasbroske/VampireSurvivorsClone" class="button icon solid brands fa-github">GitHub</a>
+								<!-- <a style="text-decoration: none;" href="https://github.com/matthiasbroske/VampireSurvivorsClone"><input type="button" value="Source Code"></a> -->
+								<!-- <button style="height: 4em; width: 12em; margin-top: -em;">Source Code <i class="icon brands fa-github"></i></button> -->
+								<h2 style="margin-top: 1em;">A Vampire Survivors inspired mobile game created in Unity.</h2>
+								<figure class = "image main">
+									<img src="images/vampire/header.gif">
+									<figcaption>The player fends off hordes of monsters using a variety of weapons and abilities.</figcaption>
+								</figure>
+							</div>
+							<div class="project-description">
+								<h2>Description</h2>
+								<p>During my 3 month internship at Gamania in Taiwan I was asked to create a mobile game inspired by one of the most popular indie games of the year, <a href="https://en.wikipedia.org/wiki/Vampire_Survivors">Vampire Survivors</a>.</p>
+								<p>In short, I was tasked with creating a game in which the player fights off hordes of increasingly difficult monsters  using a collection of random, automatically attacking, upgradeable weapons and abilities. This involved creating a basic player controller, a level up system, various enemy types, and a whole bunch of unique items and abilities for the player to use.</p>
+								<p>The game is split into quick, 10 minute levels that are completed by surviving to the end of the level and defeating the final boss.</p>
+							
+
+								<h2>Challenges</h2>
+								<p>During the development of this game I faced a number of interesting challenges.</p>
+								
+								<h3>Infinite Background</h3>
+								<p>The first challenge I encountered was that of creating an infinite background for the player to walk across.</p>
+								<p>A classic approach to this problem would be to place several large, seamless tiles around the player's position and then as soon as the player nears the edge of one tile, bring a tile that had already moved entirely offscreen on the opposite side to the side in front of the player, thereby reusing tiles to give the illusion of an infinite background. While simple to implement, I chose not take this approach as it failed to meet a self-imposed requirement of mine: create an infinite background without the appearance of obviously repeating tiles.</p>
+								<p>Knowing that I wanted to remove any evidence of repeating tiles, for my actual solution to this problem I began by implementing a custom non-repeating texture shader, as <a href="https://iquilezles.org/articles/texturerepetition/">discussed here</a>. This allowed me to use any texture I wanted for the background image, seamless or not, without any obvious signs of repetition.</p>
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/repetitive-tiling.png">
+											<figcaption>Example of standard, repetitive tiling.</figcaption>
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/non-repetitive-tiling.png">
+											<figcaption>Example of non-repetitive tiling achieved with custom shader.</figcaption>
+										</figure>
+									</div>
+								</div>
+								<p>To give the illusion of the player walking across an infinite background, I fixed a screen-sized quad with this custom shader applied to the player's position so that they moved together in tandem. I then made a slight modification to the shader so that instead of doing background texture samples based on preset vertex UVs, each fragment sampled the background texture based on its world position. This meant that as the player moved throughout the scene the coordinates used for background texture lookups changed based on the world position of the player. Just like that, this gave the appearance that the player was walking over an infinite, non-repeating background.</p>
+								<figure class = "image main" style="width: 75%; margin-left: auto; margin-right: auto;">
+									<img src="images/vampire/infinite-terrain-demo.gif">
+									<figcaption>A behind the scenes demonstration of how the infinite background really works. A screen-sized quad with the infinite terrain shader applied follows the player (top), giving the illusion that the player is walking across an infinite background (bottom).</figcaption>
+								</figure>
+								<p>One issue with this approach is that as the player gets farther and farther from the origin, floating point imprecision causes artifacts to appear when sampling the texture since the lookup coordinates are derived from the player's world position.</p>
+								<figure class = "image main">
+									<img src="images/vampire/texture-sampling-issues.gif">
+									<figcaption>Extreme example of texture sampling artifacts when the player moves very far away from the origin.</figcaption>
+								</figure>
+								<p>While it is rare that the player ever runs far enough away from the origin to encounter this issue, I made an attempt to combat it nevertheless.</p>
+								<p>Once the player has walked far enough away from the origin, an offset is applied to the world space position of each fragment inside the shader so that the texture lookup coordinates are once again near the origin, and the player's current position is saved as a new "origin." If the player walks far enough away from this new origin, this process will repeat itself. Of course, applying an instant offset to the texture lookup coordinates would lead to an abrupt and confusing sensation of teleportation for the player. Instead, once the player has walked far enough away from the origin, the shader samples the background texture at both the current world position and the new offset world position, blending from one to the other over time such that it is effectively imperceptible to the player that the background is being reset back to a position near the origin.</p>
+								<figure class = "image main">
+									<img src="images/vampire/background-blending.gif">
+									<figcaption>Demonstration of the background blending back to a point closer to the origin, slow enough that it is practically imperceptible to the player (try focusing on a single point in the background and watch as it slowly fades away into something different).</figcaption>
+								</figure>
+
+								<h3>Enemy Spawning / Level Balancing</h3>
+								<p>A key challenge to ensuring levels are enjoyable for the player is balancing enemy spawn rates and the distribution of which enemy types are spawned over the course of the level.</p>
+								<p>At first I considered taking a numerical approach to this problem, perhaps estimating the player's expected DPS (damage per second) over time for a given level, and precomputing a corresponding variable spawn rate for the enemies. Or even better, computing those values in real-time and actively scaling the spawn rate and health of the enemies accordingly to ensure that the player is always facing a challenging yet winnable scenario. However, since a level should ideally play out the same from run to run, a real-time difficulty scaling approach did seem suitable, and as for the precomputed approach, such a model would also be difficult to tune as estimating the player's DPS given all of the potential combinations of items and abilities is not trivial — not to mention other confounding factors such as enemy DPS!</p>
+								<p style="margin-bottom: 0em;">Knowing that balancing each level was going to require at least some playtesting no matter what, I instead opted for an approach that would allow me to efficiently iterate and test different enemy configurations and spawn rates. I did so using a simple keyframe based spawning system that works as follows:</p>
+								<ul>
+									<li>For a given level, the developer first specifies which enemies are allowed to spawn in that level.</li>
+									<li>Then, the developer creates "spawn chance keyframes" at select times throughout level. Each keyframe specifies the spawn chance for each of enemy at that given point in time.</li>
+									<li>Next, the developer does the same thing, but for "spawn rate keyframes," which specify the overall spawn rate of all the enemies at given points in time.</li>
+									<li>Finally, when the level is played, the EnemySpawner script interpolates between keyframes to determine the exact spawn chance of every enemy at the current point in time, as well as the exact spawn rate, and spawns enemies accordingly.</li>
+								</ul>
+								<figure class = "image main">
+									<img src="images/vampire/enemy-spawn-chance.png">
+									<figcaption>Enemy spawn chance keyframes for the first level. Crab enemies have a 100% spawn chance for the first 5% of the level, but at 35% through the level crabs only have a 15% chance to spawn, aliens have a 60% chance to spawn, and ghosts have a 25% chance to spawn. The large spike in crab spawn chance near the middle of the level corresponds to when the level's first miniboss appears, at which point limiting the types of enemies that can spawn to only crabs (the weakest enemy) allows the player to fully focus on the boss fight.</figcaption>
+								</figure>
+								<figure class = "image main">
+									<img src="images/vampire/enemy-spawn-rate.png">
+									<figcaption>Enemy spawn rate keyframes for the first level. The enemy spawn rate generally increases over time, with exceptions at the middle and end of the level when bosses are spawned. This was done to make the boss fights more fair for the player.</figcaption>
+								</figure>
+								<p>I found this system to be extremely effective in allowing me to iteratively balance levels. For example, I was able to build and balance the first level of the game in less than half an hour using this system by simply setting up some preliminary keyframes that followed a rough outline for how I thought the level should play out, and then playing through the level a few times to tweak those values and add additional keyframes where needed.</p>
+
+
+								<h2>Demo</h2>
+								<p>Following are demonstrations of some of the core systems in the game.</p> 
+								<h3>Level Up</h3>
+								<p>The player level ups by collecting XP gems dropped from slain enemies. When leveling up, the player is given a choice between three options consisting of new abilities as well as upgrades to abilities they already own.</p>
+								<figure class = "image main">
+									<img src="images/vampire/level-up.gif">
+									<figcaption>The player levels up and is given the choice between 3 random abilities: throwing stars, dagger, and attack cooldown decrease.</figcaption>
+								</figure>
+								<h3>Abilities</h3>
+								<p>The game contains over 20+ unique weapons and abilities.</p>
+								<p>Each ability has a likelihood of appearing in the level up screen based on its rarity, where rarity is generally correlated with how powerful the ability is.</p>
+								<p>Abilities are also upgradeable, meaning that once they have been acquired for the first time they have a chance of appearing in the level up screen again, giving the player the opportunity to further improve them.</p>
+								<figure class = "image main">
+									<img src="images/vampire/level-up-screen.png">
+									<figcaption>Example of a level up screen that includes upgrades for already owned abilities. For instance, the machine gun can be upgraded from level 1 to level 2, increasing the number of bullets it fires before reloading by 5, its attack damage by 100%, and decreasing its cooldown/reload by 10%.</figcaption>
+								</figure>
+								<p>A key challenge I encountered while developing the abilities was making them not only visually distinct, but also mechanically distinct from one another. For example, I was asked to add three projectile-based weapons to the game -- a bazooka, throwing stars, and a machine gun. Initially, I had all projectile-based abilities inheriting from the same "Projectile Ability" class that simply launched projectiles in the direction of the player's movement. Naturally, when more than one projectile-based ability was in use at the same time, this lead to a visually messy and very one-note gameplay experience. To resolve this specific issue, I gave each weapon its own distinct firing mode: the bazooka locks on to the closest enemy and launches an explosive projectile at it, whereas the machine gun orbits the player and fires outward in all directions, while the throwing star is simply launched in the direction the player is moving. In general, for any weapons of similar type (e.g. all melee weapons), time was taken to ensure that despite being similar, each weapon attacks slightly differently, or occupies a different part of the screen than its counterparts. This went a long way into making each ability feel unique.</p>
+								<p>Below are demonstrations of a handful of abilities from the game:</p>
+								<figure class = "image main">
+									<img src="images/vampire/boomerang-abilities.gif">
+									<figcaption>One of three "Boomerang" type abilities, the lightsaber is automatically thrown in the direction of the nearest enemy (found using a custom grid-based spatial data structure), damaging all enemies along its path before returning to the player. As this is an upgraded version of the ability, two lightsabers are thrown instead of one.</figcaption>
+								</figure>
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/bat-ability.gif">
+											<figcaption>The bat performs a sweeping melee attack in the direction of the player's movement, dealing light damange and applying significant knockback to any hit enemies.</figcaption>
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/dagger-ability.gif">
+											<figcaption>The dagger performs a stabbing melee attack in the direction of the player's movement, dealing bleed damage over time to any enemy that it hits.</figcaption>
+										</figure>
+									</div>
+								</div>
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/bazooka-ability.gif">
+											<figcaption>The bazooka launches explosive projectiles in the direction of the nearest enemy, dealing AOE damage to all enemies in the explosion's radius.</figcaption>
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/mg-ability.gif">
+											<figcaption>The machine gun rapidly fires projectiles outward is it orbits the player.</figcaption>
+										</figure>
+									</div>
+								</div>
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/grenade-ability.gif">
+											<figcaption>Grenades are thrown in random directions, exploding into a burst of damaging projectiles after a short delay.</figcaption>
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/molly-ability.gif">
+											<figcaption>Molotovs are thrown toward a random enemy near the player, leaving a flaming puddle on the ground that deals damage over time.</figcaption>
+										</figure>
+									</div>
+								</div>
+								<p>Not all abilities grant weapons. Instead, some abilities grant global upgrades which apply to all of the player's weapons/abilities. For example, there's an ability that increases the area of effect (AOE) of all abilities that have an AOE (such as bazooka, molotov, etc.), an ability that increases the damage of all damaging abilities, and most fun of all, an ability that increases the projectile count of all projectile-based weapons (including grenades, molotovs, axes and more).</p>
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/projectile-bazooka.gif">
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/projectile-axe.gif">
+										</figure>
+									</div>
+								</div>
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/projectile-grenade.gif">
+											
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/projectiles-machete.gif">
+										
+										</figure>
+									</div>
+								</div>
+								<div style="margin-top: -1em;" class="image main">
+									<figcaption>Projectile count upgrade demonstrated on a variety of weapons. In the grenade's case, note how not only are more grenades thrown, but also every grenade splits into more projectiles.</figcaption>
+								</div>
+								<p>In many ways, the heart of the game lies in using these global upgrades along with each ability's unique upgrade path to create exponentially powerful, game-breaking builds.</p>
+								
+								<h3>Enemies</h3>
+								<p>There are currently 4 unique basic enemy types as well as 2 boss enemies in the game.</p>
+								<p>The basic enemy types are melee, ranged projectile, boomerang, and grenade throwing enemies, where each type includes enemies of varying strength, speed, health, etc.</p>
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/melee-1.gif">
+											
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/melee-2.gif">
+										
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/melee-3.gif">
+									
+										</figure>
+									</div>
+								</div>
+								<div style="margin-top: -1em;" class="image main">
+									<figcaption>Three melee enemy variants, organized weakest to strongest from left to right. Melee enemies automatically deal damage to the player on collision, but have varying walk speeds, attack rates, and health points.</figcaption>
+								</div>
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/monster-projectile.gif">
+											<figcaption>The ranged projectile enemy type launches damaging projectiles in the direction of the player.</figcaption>
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/monster-boomerang.gif">
+											<figcaption>The boomerang enemy type throws damaging boomerangs towards the player, which return back to the enemy to be thrown again.</figcaption>
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/monster-grenade.gif">
+											<figcaption>The grenade enemy type lobs grenades in the direction the player is running. The enemy shown here throws a gravity-well producing grenade that pulls the player and any nearby enemies into it.</figcaption>
+										</figure>
+									</div>
+								</div>
+								<p>Bosses are made up of a collection of modular abilities, such that new bosses can be quickly created by simply utilizing a different combination of pre-existing boss abilities. The three abilities that have been created so far are the charge ability, the shotgun ability, and the grenade throw ability. The boss chooses which ability to use at any given time via the strategy design pattern, in which each ability is scored based on how useful it is to the boss at that moment, and the boss chooses the ability with the highest score.</p>
+								<figure class = "image main">
+									<img src="images/vampire/boss.gif">
+									<figcaption>The boss throws grenades, charges, and shoots a shotgun-like spread of projectiles towards the player to finally finish them off.</figcaption>
+								</figure>
+								<h3>Items</h3>
+								<p>Another difference between this game and Vampire Survivors is the inclusion of items — such as healing potions, bombs, and magnets — which the player can activate using the corresponding button on the right hand side of the screen. These items are found in chests which appear randomly throughout the map during each level.</p>
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/item-bomb.gif">
+											<figcaption>The bomb item deals 300 damage to every on-screen enemy.</figcaption>
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/item-health-potion.gif">
+											<figcaption>The health potion item heals the player by 50 HP.</figcaption>
+										</figure>
+									</div>
+								</div>
+								<figure class = "image main">
+									<img src="images/vampire/item-magnet.gif">
+									<figcaption>The magnet item collects every non-collected XP gem in the level. When used in combination with the bomb item, this can cause the player to level up several times in a row.</figcaption>
+								</figure>
+								<h3>Game Over</h3>
+								<p>The game ends in defeat when the player's health reaches zero, and in victory if the player manages to survive past the allotted time and defeat the final boss. The game over screen displays stats about the number of enemies killed, damage dealt, etc.</p>
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/go-lose.gif">
+											<figcaption>The player is defeated when their health drops to zero.</figcaption>
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/vampire/go-win.gif">
+											<figcaption>The player wins when they defeat the final boss.</figcaption>
+										</figure>
+									</div>
+								</div>
+								<h2 style="margin-bottom: -0em;">Tools Used</h2>
+								<p style="margin-bottom: -0.25em;"><b>Languages:</b> C#, HLSL</p>
+								<p><b>Software:</b> Unity, Aseprite, Git, <a href="https://kenney.itch.io/creature-mixer">Creature Mixer</a></p>
+							</div>
+							
+							<!-- <span class="image main"><img src="images/vampire/header.gif" alt="" /></span> -->
+						</div>
+					</div>
+
+				<!-- Footer -->
+					<!-- Footer -->
+					<footer id="footer">
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/footer.js"></script>  
+			<script src="assets/js/header.js"></script>
+
+	</body>
+</html>

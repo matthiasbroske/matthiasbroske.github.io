@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>HDR + Bloom</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="header">
+				</header>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<h2>Projects</h2>
+					<ul>
+						<li><a href="vampire-survivors.html">Vampire Survivors Clone</a></li>
+						<li><a href="ray-tracing.html">Ray Tracing Renderer</a></li>
+						<li><a href="linked-plots.html">Linked Plots Package</a></li>
+						<li><a href="planet-impact.html">Planet Impact</a></li>
+						<li><a href="artic-angler.html">Arctic Angler</a></li>
+						<li><a href="inverse-kinematics.html">Inverse Kinematics</a></li>
+						<li><a href="stable-fluids.html">Fluid Simulation</a></li>
+						<li><a href="cloth-simulation.html">Cloth Simulation</a></li>
+						<li><a href="pathfinding-simulation.html">Pathfinding Simulation</a></li>
+						<li><a href="hanzi-dachu.html">汉字大厨</a></li>
+						<li><a href="ray-marching.html">Ray Marching</a></li>
+						<li><a href="hdr-bloom.html">HDR Shaders + Bloom</a></li>
+					</ul>
+				</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<div class="project-header">
+								<h1 style="margin-bottom: 0.1em;">HDR Shaders + Bloom</h1>
+								<h2 style="margin-top: 1em;">An implementation of HDR and bloom from scratch in OpenGL</h2>
+								
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/hdr/header-1.gif">
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/hdr/header-2.gif">
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/hdr/header-3.gif">
+										</figure>
+									</div>
+								</div>
+								<!-- <div style="margin-top: -1em;" class="image main">
+									<figcaption>Three melee enemy variants, organized weakest to strongest from left to right. Melee enemies automatically deal damage to the player on collision, but have varying walk speeds, attack rates, and health points.</figcaption>
+								</div> -->
+							</div>
+							<div class="project-description">
+								<h2>Description</h2>
+								<p>This was my submission for a class project in <i>CSCI 4611: Programming Graphics and Games</i>, in which we were asked to implement Phong and cel shading. I took this a step further by also implementing an HDR and bloom solution from scratch in OpenGL. I then created custom dissolve and outline shaders to demonstrate the effect.</p>
+
+								<h2>Explanation</h2>
+								<h3>HDR + bloom</h3>
+								<p>To implement bloom, I utilized a floating point framebuffer which allowed for HDR color values greater than 1.0 to be written to it. From there, I rendered only those fragments with a brightness above a certain threshold to a separate texture, which was blurred using Gaussian blur, and then recombined with the original texture to undergo tone mapping and create the final image for that frame.</p>
+								<h3>Dissolve Shader</h3>
+								<p>In order to give objects the appearance of dissolving, I used a Perlin noise texture along with a variable threshold to determine which fragments to discard, coloring fragments close to that boundary with an especially bright color to allow bloom to come into full effect along the edges of the dissolved surface.</p>
+
+								<h2>Demo</h2>
+
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/hdr/demo-1.gif">
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/hdr/demo-2.gif">
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/hdr/demo-3.gif">
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/hdr/demo-4.gif">
+										</figure>
+									</div>
+								</div>
+								<div style="margin-top: -1em;" class="image main">
+									<figcaption>Outline and dissolve shader applied to a variety of models.</figcaption>
+								</div>
+
+								<h2 style="margin-bottom: -0em;">Tools Used</h2>
+								<p style="margin-bottom: -0.25em;"><b>Languages:</b> C++, GLSL</p>
+								<p style="margin-bottom: -0em;"><b>Software:</b> <a href="https://github.com/ivlab/MinGfx">MinGfx</a>, OpenGL</p>
+
+							</div>
+							
+							<!-- <span class="image main"><img src="images/vampire/header.gif" alt="" /></span> -->
+						</div>
+					</div>
+
+				<!-- Footer -->
+					<!-- Footer -->
+					<footer id="footer">
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/footer.js"></script>  
+			<script src="assets/js/header.js"></script>
+
+	</body>
+</html>

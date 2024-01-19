@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Linked Plots Package</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="header">
+				</header>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<h2>Projects</h2>
+					<ul>
+						<li><a href="vampire-survivors.html">Vampire Survivors Clone</a></li>
+						<li><a href="ray-tracing.html">Ray Tracing Renderer</a></li>
+						<li><a href="linked-plots.html">Linked Plots Package</a></li>
+						<li><a href="planet-impact.html">Planet Impact</a></li>
+						<li><a href="artic-angler.html">Arctic Angler</a></li>
+						<li><a href="inverse-kinematics.html">Inverse Kinematics</a></li>
+						<li><a href="stable-fluids.html">Fluid Simulation</a></li>
+						<li><a href="cloth-simulation.html">Cloth Simulation</a></li>
+						<li><a href="pathfinding-simulation.html">Pathfinding Simulation</a></li>
+						<li><a href="hanzi-dachu.html">汉字大厨</a></li>
+						<li><a href="ray-marching.html">Ray Marching</a></li>
+						<li><a href="hdr-bloom.html">HDR Shaders + Bloom</a></li>
+					</ul>
+				</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<div class="project-header">
+								<h1 style="margin-bottom: 0.5em;">Linked Plots Package</h1>
+								<a href="https://github.com/ivlab/2DPlotting-UnityPackage" class="button icon solid brands fa-github">GitHub</a>
+								<!-- <a style="text-decoration: none;" href="https://github.com/ivlab/2DPlotting-UnityPackage"><input type="button" value="Source Code"></a> -->
+								<h2 style="margin-top: 1em;">A Unity package that provides brushing, linking, and filtering between multiple 2D plots and 3D visualizations.</h2>
+								<figure class = "image main">
+									<img src="images/linkedplots/header.gif">
+									<figcaption>A demonstration of the linked plots package being used to explore the elevation change of Mount St. Helens before and after eruption. The package provides linkage between both the 2D plots and the 3D visualization, such that selection in one view propagates automatically to all others.</figcaption>
+								</figure>
+							</div>
+							<div class="project-description">
+								<h2>Description</h2>
+								<p>I built this Unity package from scratch as an undergrad in the University of Minnesota's IV/Lab to assist with a number of interesting visualization challenges and research projects, such as the <a href="https://virtual.ieeevis.org/year/2022/poster_v-vis-posters-1046.html">Analysis of Cyclical 4D Skeletal Motion Data</a>.</p>
+								<p>This package provides basic plotting functionality for scatter plots, cluster plots, line plots and parallel coordinate plots, as well as a robust linkage between those plots and any other visualization the user wishes to connect. This is particularly useful for high-dimensional datasets in which more than 2 variables need to be compared at once, or datasets that have interrelated 2D and 3D data that necessitates side-by-side visualization.</p>
+							
+
+								<h2>Challenges</h2>
+								<p>With the ability to interpret arbitrary OBJ models via my custom file parser, I thought it would be fun to test my ray tracer on some higher complexity models, such as the classic <a href="https://graphics.stanford.edu/data/3Dscanrep/">Stanford bunny</a>. Unfortunately, when I first attempted to render the Stanford bunny it took well over 10 minutes to complete. This made it practically impossible to setup a compelling scene since every time I wanted to test a new camera position, tweak the lighting or change the material properties I was forced to wait minutes for a render to complete. </p>
+								<p>To speed things up, I knew I needed to utilize some sort of spacial data structure to avoid the O(N²) computation of checking every ray against every triangle for intersection. To achieve this I implemented a basic bounding volume hierarchy (BVH), partitioning the scene into a tree of bounding boxes, which decreased render times for complex models from minutes to seconds!</p>
+								<p>While using a BVH allowed for the efficient rendering of much more complex scenes than my ray tracer was initially designed for, and sub-second rendering speeds for simple scenes, if I were to build a ray tracer from scratch again I would absolutely do so utilizing the GPU instead of the CPU.</p>
+								
+								<h2>Demo</h2>
+								<figure class = "image main">
+									<img src="images/linkedplots/cars-demo.gif">
+									<figcaption>Mock demonstration of how selecting data points related to cars in a 2D plots instantly propagates to all other 2D plots as well as a 3D visualization.</figcaption>
+								</figure>
+								<figure class = "image main">
+									<img src="images/linkedplots/voxels-demo.gif">
+									<figcaption>Demonstration of individual voxels in a mock 3D voxel volume being selected with linked plots package.</figcaption>
+								</figure>
+								<figure class = "image main">
+									<img src="images/linkedplots/vr-demo.gif">
+									<figcaption>Demonstration of the linked plots package being used to select proton radiation treatment plans from DVH curves in a VR environment.</figcaption>
+								</figure>
+
+								<h2 style="margin-bottom: -0em;">Tools Used</h2>
+								<p style="margin-bottom: -0.25em;"><b>Languages:</b> C#</p>
+								<p><b>Software:</b> Unity, Git</p>
+							</div>
+							
+							<!-- <span class="image main"><img src="images/vampire/header.gif" alt="" /></span> -->
+						</div>
+					</div>
+
+				<!-- Footer -->
+					<!-- Footer -->
+					<footer id="footer">
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/footer.js"></script>  
+			<script src="assets/js/header.js"></script>
+
+	</body>
+</html>

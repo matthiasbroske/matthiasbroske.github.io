@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Arctic Angler</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="header">
+				</header>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<h2>Projects</h2>
+					<ul>
+						<li><a href="vampire-survivors.html">Vampire Survivors Clone</a></li>
+						<li><a href="ray-tracing.html">Ray Tracing Renderer</a></li>
+						<li><a href="linked-plots.html">Linked Plots Package</a></li>
+						<li><a href="planet-impact.html">Planet Impact</a></li>
+						<li><a href="artic-angler.html">Arctic Angler</a></li>
+						<li><a href="inverse-kinematics.html">Inverse Kinematics</a></li>
+						<li><a href="stable-fluids.html">Fluid Simulation</a></li>
+						<li><a href="cloth-simulation.html">Cloth Simulation</a></li>
+						<li><a href="pathfinding-simulation.html">Pathfinding Simulation</a></li>
+						<li><a href="hanzi-dachu.html">汉字大厨</a></li>
+						<li><a href="ray-marching.html">Ray Marching</a></li>
+						<li><a href="hdr-bloom.html">HDR Shaders + Bloom</a></li>
+					</ul>
+				</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<div class="project-header">
+								<h1>Arctic Angler</h1>
+								<h2>A fishing game with a detailed water simulation.
+								</h2>
+								<figure class = "image main">
+									<img src="images/arctic/header.gif">
+									<figcaption>Physically simulated planets orbit around a star in the title screen of Planet Impact.</figcaption>
+								</figure>
+							</div>
+							<div class="project-description">
+								<h2>Description</h2>
+								<p>This was my group's submission for the final class project in <i>CSCI 5611: Animation & Planning in Games</i>. The goal of this project was to create a small game using any of the simulation techniques we'd discussed throughout the semester. My group decided to develop a fishing game with realistic water and fish flocking simulations. My contribution to this project was creating a GPU-based 3D water simulation, along with a shader to render the reflective/refractive properties of the water surface.</p>
+
+								<h2>Discussion</h2>
+								<h3>Water Simulation</h3>
+								<p>The water simulation went through numerous iterations before reaching its final state which, amusingly enough, ended up being the first and simplest water simulation tried regardless.</p>
+								<h4>What I Did</h4>
+								<p>Specifically, I used the approach proposed by Matthias Müller-Fischer in <a href="https://ubm-twvideo01.s3.amazonaws.com/o1/vault/gdc08/slides/S6509i1.pdf">this GDC talk</a> which involves using a simple 2D height field to determine how water should propagate. What makes my version slightly improved is that it runs on the GPU via a compute shader, followed by an additional compute shader that calculates an interpolated normal map based on the height field every frame. These textures are sent directly to a custom water shader allowing for lighting-fast vertex displacements and normal vector adjustments to the water's surface, all without touching the CPU.</p>
+								<h4>What I Tried</h4>
+								<p>It's worth touching on another of the water simulations I attempted, as it certainly gave some interesting results!</p>
+								<p>With a GPU implementation of 2D Stable Fluids up and running <a href="linked-plots.html">as discussed here</a>, I thought it would be a fun experiment to see if I could translate the 2D fluid motion it simulated into 3D, without actually fully simulating it in 3D. Inspired by <a href="https://www.reddit.com/r/Unity3D/comments/q1xh1z/gentle_introduction_to_realtime_fluid_simulation/">this reddit post</a>, I computed a height map using the pressure field from the Stable Fluids simulation, and ran it through the kernel that computes normals and passes that data to the water shader. The results were interesting with the right tuning, but when it came down to the simple fishing mechanics we were working with, the ripples provided by this approach simply weren't as good of a fit.</p>
+								<figure class = "image main">
+									<img src="images/arctic/stable-fluids.gif">
+									<figcaption>An attempt at simulating water by using the pressure field derived from a Stable Fluids simulation.</figcaption>
+								</figure>
+								<h3>Water Shading</h3>
+								<p>As it turns out, rendering a convincing water surface was significantly more challenging than simulating the water itself  — especially once we realized that we were interested in water with true reflections.</p>
+								<figure class = "image main">
+									<img src="images/arctic/ws-1.gif">
+								</figure>
+								<p>In short, by using the normals our GPU compute shader so kindly provides, some slight fluctuations can be applied to both the objects rendered below the surface of the water (refraction), and the objects reflected off the surface of the water (reflection) to create a convincing water surface effect. </p>
+								<p>More specifically, I used a grab pass to get a texture copy of everything rendered before the water surface, and blended that with a water color based on the camera depth texture. The uv coordinates used to sample these textures were given an offset based on the normal vector of the surface at each fragment, giving the illusion of refraction.</p>
+								<p>For reflection, I positioned a second camera below the water surface mirroring the main camera, and sampled from its render texture (with uvs distorted by the normal of the water surface) in the water shader as well.</p>
+								<p>To simulate a basic Fresnel effect, the angle between the camera's view direction and each fragment on the surface of the water is used to control the blend between the refracted and reflected images (where a direct viewing angle straight into the water sees little reflection compared to an angle mostly parallel with the surface).</p>
+								<figure class = "image main">
+									<img src="images/arctic/ws-2.gif">
+									<figcaption>The Fresnel effect in action.</figcaption>
+								</figure>
+								<p>Even though these reflections and refractions aren't quite physically accurate, since all we're actually attempting to simulate here is the motion of water, it does more than enough to add some oomph to the believability of that simulation.</p>
+
+								<h2>Demo</h2>
+								<figure class = "image main">
+									<img src="images/arctic/demo-1.gif">
+									<figcaption>Ripples distort the surface of the water.</figcaption>
+								</figure>
+								<figure class = "image main">
+									<img src="images/arctic/demo-2.gif">
+									<figcaption>Ripples emanate from the bobber as it interacts with the surface of the water.</figcaption>
+								</figure>
+								<figure class = "image main">
+									<img src="images/arctic/demo-3.gif">
+									<figcaption>Fish catching demonstration.</figcaption>
+								</figure>
+								
+
+								<h2 style="margin-bottom: -0em;">Credit</h2>
+								<p style="margin-bottom: -0.25em;"><b>Group Members:</b> Kevin Bradt (Flocking Simulation), Clara Huang (Character)</p>
+								<p style="margin-bottom: -0.25em;"><b>Assets:</b> <a href="https://www.mixamo.com/#/?page=1&type=Character">Character + Animation</a>, <a href="https://sketchfab.com/3d-models/fish-skeleton-d9b138827dab40139bc3fc22d3914a52">Fish Bones</a></p>
+								<h2 style="margin-bottom: -0em;">Tools Used</h2>
+								<p style="margin-bottom: -0.25em;"><b>Languages:</b> C#, HLSL</p>
+								<p><b>Software:</b> Unity, Blender, Git</p>
+							</div>
+							
+							<!-- <span class="image main"><img src="images/vampire/header.gif" alt="" /></span> -->
+						</div>
+					</div>
+
+				<!-- Footer -->
+					<!-- Footer -->
+					<footer id="footer">
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/footer.js"></script>  
+			<script src="assets/js/header.js"></script>
+
+	</body>
+</html>

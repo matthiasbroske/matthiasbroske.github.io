@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Ray Tracing</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="header">
+				</header>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<h2>Projects</h2>
+					<ul>
+						<li><a href="vampire-survivors.html">Vampire Survivors Clone</a></li>
+						<li><a href="ray-tracing.html">Ray Tracing Renderer</a></li>
+						<li><a href="linked-plots.html">Linked Plots Package</a></li>
+						<li><a href="planet-impact.html">Planet Impact</a></li>
+						<li><a href="artic-angler.html">Arctic Angler</a></li>
+						<li><a href="inverse-kinematics.html">Inverse Kinematics</a></li>
+						<li><a href="stable-fluids.html">Fluid Simulation</a></li>
+						<li><a href="cloth-simulation.html">Cloth Simulation</a></li>
+						<li><a href="pathfinding-simulation.html">Pathfinding Simulation</a></li>
+						<li><a href="hanzi-dachu.html">汉字大厨</a></li>
+						<li><a href="ray-marching.html">Ray Marching</a></li>
+						<li><a href="hdr-bloom.html">HDR Shaders + Bloom</a></li>
+					</ul>
+				</nav>
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<div class="project-header">
+								<h1 style="margin-bottom: 0.5em;">Ray Tracing Renderer</h1>
+								<a href="https://github.com/matthiasbroske/CPURayTracer" class="button icon solid brands fa-github">GitHub</a>
+								<!-- <a style="text-decoration: none;" href="https://github.com/matthiasbroske/CPURayTracer"><input type="button" value="Source Code"></a> -->
+								<h2 style="margin-top: 1em;">A ray tracing renderer built from scratch in C++.</h2>
+								<figure style="max-width: 512px; margin-left: auto; margin-right: auto;" class = "image main">
+									<img src="images/raytracing/ray-tracing-header.png">
+									<figcaption>An image rendered by the ray tracer demonstrating reflection, refraction, shadows, and texture mapping.</figcaption>
+								</figure>
+							</div>
+							<div class="project-description">
+								<h2>Description</h2>
+								<p>I built this ray tracer from scratch using C++ for a semester-long project in <i>CSCI 5607: Computer Graphics</i>. This ray tracer is capable of rendering scenes with diffuse shading, multiple light sources, light attenuation, reflections, transparency & refraction, soft shadows, depth of field, texture mapping and depthcueing. It utilizes a bounding volume hierarchy to efficiently render scenes with more complex geometry, and also has a custom "scene description" file parser that supports OBJ models with normals, uvs and material properties.</p>
+							
+
+								<h2>Challenges</h2>
+								<p>With the ability to interpret arbitrary OBJ models via my custom file parser, I thought it would be fun to test my ray tracer on some higher complexity models, such as the classic <a href="https://graphics.stanford.edu/data/3Dscanrep/">Stanford bunny</a>. Unfortunately, when I first attempted to render the Stanford bunny it took well over 10 minutes to complete. This made it practically impossible to setup a compelling scene since every time I wanted to test a new camera position, tweak the lighting or change the material properties I was forced to wait minutes for a render to complete. </p>
+								<p>To speed things up, I knew I needed to utilize some sort of spacial data structure to avoid the O(N²) computation of checking every ray against every triangle for intersection. To achieve this I implemented a basic bounding volume hierarchy (BVH), partitioning the scene into a tree of bounding boxes, which decreased render times for complex models from minutes to seconds!</p>
+								<p>While using a BVH allowed for the efficient rendering of much more complex scenes than my ray tracer was initially designed for, and sub-second rendering speeds for simple scenes, if I were to build a ray tracer from scratch again I would absolutely do so utilizing the GPU instead of the CPU.</p>
+								
+								<h2>Demo</h2>
+								<div class="image-row">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/raytracing/depth-of-field.png">
+											<figcaption>Demonstration of depth of field, along with reflection, refraction and texture mapping.</figcaption>
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/raytracing/bunny.png">
+											<figcaption>Demonstration of soft shadows and depthcueing, where utilizing a BVH allows for efficient rendering of such a complex model. </figcaption>
+										</figure>
+									</div>
+								</div>
+								<div class="image-row">
+									<div class="image-row-column-rt-demo-text">
+										<figure class = "image main">
+											<img src="images/raytracing/demo-scene-description.png">
+											<!-- <figcaption>Demonstration of depth of field, along with reflection, refraction and texture mapping.</figcaption> -->
+										</figure>
+									</div>
+									<div class="image-row-column-rt-demo-image">
+										<figure class = "image main">
+											<img src="images/raytracing/demo-output.jpeg">
+											<!-- <figcaption>Demonstration of soft shadows and depthcueing, where utilizing a BVH allows for efficient rendering of such a complex model. </figcaption> -->
+										</figure>
+									</div>
+								</div>
+								<div style="margin-top: -1em;" class="image main">
+									<figcaption>Example of a "scene description" input file (left) and its corresponding output (right). Scene description files provide robust control over the camera, lighting, materials and objects rendered in the scene.</figcaption>
+								</div>
+
+								<h2 style="margin-bottom: -0em;">Tools Used</h2>
+								<p style="margin-bottom: -0.25em;"><b>Languages:</b> C++</p>
+								<p><b>Software:</b> Make, Git</p>
+							</div>
+							
+							<!-- <span class="image main"><img src="images/vampire/header.gif" alt="" /></span> -->
+						</div>
+					</div>
+
+				<!-- Footer -->
+					<!-- Footer -->
+					<footer id="footer">
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/footer.js"></script>  
+			<script src="assets/js/header.js"></script>
+
+	</body>
+</html>
