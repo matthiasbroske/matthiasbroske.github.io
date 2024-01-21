@@ -18,40 +18,52 @@
 			<div id="wrapper">
 
 				<!-- Header -->
-					<header id="header">
-					</header>
+					<!-- <header id="header">
+					</header> -->
+				<header id="new-header">
+					<div class="navbar">
+						<a href="index.html" class="logo magic-tile">
+							<span class="symbol">
+								<img class="active-tile" src="images/logo.gif"/>
+								<img class="static-tile" src="images/logo.png"/>
+							</span>
+							<span class="title">Home</span>
+						</a>
+						<div class="dropdown">
+							<a>Projects <i class="fa fa-caret-down"></i></a>
+							<div class="dropdown-content">
+								<a href="vampire-survivors.html">Vampire Survivors Clone</a>
+								<a href="ray-tracing.html">Ray Tracing Renderer</a>
+								<a href="linked-plots.html">Linked Plots Package</a>
+								<a href="planet-impact.html">Planet Impact</a>
+								<a href="artic-angler.html">Arctic Angler</a>
+								<a href="inverse-kinematics.html">Inverse Kinematics</a>
+								<a href="stable-fluids.html">Fluid Simulation</a>
+								<a href="cloth-simulation.html">Cloth Simulation</a>
+								<a href="pathfinding-simulation.html">Pathfinding Simulation</a>
+								<a href="hanzi-dachu.html">汉字大厨</a>
+								<a href="ray-marching.html">Ray Marching</a>
+								<a href="hdr-bloom.html">HDR Shaders + Bloom</a>
+							</div>
+						</div>
+					</div>
+				</header>
 			
 
 				<!-- Menu -->
-					<nav id="menu">
-						<h2>Projects</h2>
-						<ul>
-							<li><a href="vampire-survivors.html">Vampire Survivors Clone</a></li>
-							<li><a href="ray-tracing.html">Ray Tracing Renderer</a></li>
-							<li><a href="linked-plots.html">Linked Plots Package</a></li>
-							<li><a href="planet-impact.html">Planet Impact</a></li>
-							<li><a href="artic-angler.html">Arctic Angler</a></li>
-							<li><a href="inverse-kinematics.html">Inverse Kinematics</a></li>
-							<li><a href="stable-fluids.html">Fluid Simulation</a></li>
-							<li><a href="cloth-simulation.html">Cloth Simulation</a></li>
-							<li><a href="pathfinding-simulation.html">Pathfinding Simulation</a></li>
-							<li><a href="hanzi-dachu.html">汉字大厨</a></li>
-							<li><a href="ray-marching.html">Ray Marching</a></li>
-							<li><a href="hdr-bloom.html">HDR Shaders + Bloom</a></li>
-						</ul>
-					</nav>
 
 				<!-- Main -->
 					<div id="main" style="margin-bottom: 2em;">
 						<div class="inner">
 							<header>
-								<h1 style="margin-bottom: 0.5em;">Hi, I'm Matthias</h1>
+								<h1 style="margin-bottom: 0.0em;">Hey,</h1>
+								<h1 style="margin-top: 0.0em; margin-bottom: 0.5em;">I'm Matthias Broske</h1>
 								<p class="header-paragraph">A Computer Science graduate with a knack for computer graphics, virtual reality, and games programming. </p>
 								<div class="icons-div">
 									<ul class="icons">
 										<li><a href="https://github.com/matthiasbroske/" class="button icon solid brands fa-github">GitHub</a></li>
 										<li><a href="resume.html" class="button icon solid fa-file">Resume</a></li>
-										<li><a href="mailto:tias@broske.com" class="button icon solid fa-envelope">Email</a></li>
+										<!-- <li><a href="mailto:tias@broske.com" class="button icon solid fa-envelope">Email</a></li> -->
 									</ul>
 								</div>
 								<hr>
@@ -260,6 +272,13 @@
 							staticImg.css('z-index', 0);
 						}                         
 					);                 
+				});
+
+				$(function () {
+					$(document).scroll(function () {
+						var $nav = $(".navbar");
+						$nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height()/2);
+					});
 				});
 			</script>
 
