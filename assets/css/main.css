@@ -2056,7 +2056,7 @@ input, select, textarea {
 		cursor: default;
 		list-style: none;
 		padding-left: 0;
-		margin: -2em -0em -1em -1em;
+		margin: -1.5em -0em -1em -1em;
 	}
 
 		ul.icons li {
@@ -2703,6 +2703,7 @@ input, select, textarea {
 				text-align: center;
 				text-decoration: none;
 				z-index: 3;
+				overflow: hidden;
 			}
 
 				.tiles article > a > :last-child {
@@ -2728,6 +2729,8 @@ input, select, textarea {
 				}
 
 				.tiles article > a h2 {
+					padding-left: 1px;
+					padding-right: 1px;
 					margin: 0;
 					width: 100%;
 					border-radius: 5px;
@@ -2737,16 +2740,16 @@ input, select, textarea {
 				}
 
 				.tiles article > a .content { /* header + description animation on hover */
-					-moz-transition: visibility 0.15s ease, max-height 0.5s ease, opacity 0.5s ease;
-					-webkit-transition: visibility 0.15s ease, max-height 0.5s ease, opacity 0.5s ease;
-					-ms-transition: visibility 0.15s ease, max-height 0.5s ease, opacity 0.5s ease;
-					transition: visibility 0.15s ease, max-height 0.5s ease, opacity 0.5s ease;
+					-moz-transition: max-height 0.5s ease, opacity 0.35s ease;
+					-webkit-transition: max-height 0.5s ease, opacity 0.35s ease;
+					-ms-transition: max-height 0.5s ease, opacity 0.35s ease;
+					transition: max-height 0.5s ease, opacity 0.35s ease;
 					width: 100%;
 					max-height: 0;
 					line-height: 1.5;
 					margin-top: 0.35em;
 					opacity: 0;
-					visibility: hidden;
+					/* visibility: visible; */
 				}
 
 					.tiles article > a .content > :last-child {
@@ -2778,7 +2781,7 @@ input, select, textarea {
 			body:not(.is-touch) .tiles article:hover .content {
 				max-height: 15em;
 				opacity: 1;
-				visibility: visible;
+				/* visibility: visible; */
 			}
 
 		* + .tiles {
@@ -2798,11 +2801,32 @@ input, select, textarea {
 			opacity: 1;
 		}
 
+		@media screen and (max-width: 1680px) {
+
+			.tiles {
+				margin: -1.25em 0 0 -1.25em;
+			}
+
+				.tiles article {
+					width: calc(33.33333% - 1.25em);
+					margin: 1.25em 0 0 1.25em;
+				}
+
+		}
+
 		@media screen and (max-width: 1280px) {
 
 			.tiles {
 				margin: -1.25em 0 0 -1.25em;
 			}
+
+				.tiles article > a h2 {
+					font-size: 0.9em;
+				}
+
+				.tiles article > a .content { /* header + description animation on hover */
+					font-size: 0.9em;
+				}
 
 				.tiles article {
 					width: calc(33.33333% - 1.25em);
@@ -2817,6 +2841,14 @@ input, select, textarea {
 				margin: -2.5em 0 0 -2.5em;
 			}
 
+				.tiles article > a h2 {
+					font-size: 1em;
+				}
+
+				.tiles article > a .content { /* header + description animation on hover */
+					font-size: 1em;
+				}
+
 				.tiles article {
 					width: calc(50% - 2.5em);
 					margin: 2.5em 0 0 2.5em;
@@ -2824,11 +2856,20 @@ input, select, textarea {
 
 		}
 
+
 		@media screen and (max-width: 736px) {
 
 			.tiles {
 				margin: -1.25em 0 0 -1.25em;
 			}
+
+				.tiles article > a h2 {
+					font-size: 0.8em;
+				}
+
+				.tiles article > a .content { /* header + description animation on hover */
+					font-size: 0.8em;
+				}
 
 				.tiles article {
 					width: calc(50% - 1.25em);
@@ -2844,10 +2885,30 @@ input, select, textarea {
 
 		}
 
+		@media screen and (max-width: 546px) {
+
+			.tiles article > a h2 {
+				font-size: 0.7em;
+			}
+
+			.tiles article > a .content { /* header + description animation on hover */
+				font-size: 0.7em;
+			}
+
+	}
+
 		@media screen and (max-width: 480px) {
 
 			.tiles {
 				margin: 0;
+			}
+
+			.tiles article > a h2 {
+				font-size: 1em;
+			}
+
+			.tiles article > a .content { /* header + description animation on hover */
+				font-size: 1em;
 			}
 
 				.tiles article {
@@ -3296,6 +3357,8 @@ input, select, textarea {
 	text-align: center;
 	font-size: 2em;
 	letter-spacing: 0.1em;
+	/* padding-bottom: 0em;
+	margin-bottom: 0em; */
 }
 
 @media only screen and (max-width: 736px) {
