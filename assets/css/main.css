@@ -130,9 +130,9 @@ input, select, textarea {
 
 	body, input, select, textarea {
 		color: #585858;
-		font-family: "Courier";
+		font-family: "IBM Plex Mono";
 		font-size: 16pt;
-		font-weight: 300;
+		font-weight: 500;
 		line-height: 1.75;
 	}
 
