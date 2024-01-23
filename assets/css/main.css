@@ -2784,9 +2784,9 @@ input, select, textarea {
 				/* visibility: visible; */
 			}
 
-		* + .tiles {
+		/* * + .tiles {
 			margin-top: 2em;
-		}
+		} */
 
 		body.is-preload .tiles article {
 			-moz-transform: scale(0.9);
