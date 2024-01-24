@@ -33,7 +33,7 @@
 							<div class="project-header">
 								<h1 style="margin-bottom: 0.1em;">Ray Marching</h1>
 								<h2 style="margin-top: 1em;">Ray marched motion capture animations.</h2>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/raymarching/header.gif">
 									<figcaption>Motion capture data rendered with a custom raymarching shader that allows nearby geometry to blend and deform.</figcaption>
 								</figure>
@@ -41,6 +41,13 @@
 							<div class="project-description">
 								<h2>Description</h2>
 								<p>This was my submission for a class project in <i>CSCI 4611: Programming Graphics and Games</i>. The goal of this project was to animate characters (originally ants, now "amorphous humanoid blobs") using motion capture data. I expanded on this by developing a custom raymarching shader that could be used to render the characters and their environment such that their forms merge and deform as they make contact with each other and the ground.</p>
+
+								<h2>Key Features</h2>
+								<ul>
+									<li>Ray marching</li>
+									<li>Ambient, diffuse and specular shading</li>
+									<li>Motion capture animation</li>
+								</ul>
 
 								<h2>Process</h2>
 								<p>To render each "bone" of the motion capture skeleton data, I passed the bone's transformation matrix to the raymarching shader, and used that matrix to transform the SDF for a primitive shape such as a capsule or a rounded cone. </p>
