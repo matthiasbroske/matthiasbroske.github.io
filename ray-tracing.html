@@ -42,16 +42,33 @@
 							</div>
 							<div class="project-description">
 								<h2>Description</h2>
-								<p>I built this ray tracer from scratch using C++ for a semester-long project in <i>CSCI 5607: Computer Graphics</i>. This ray tracer is capable of rendering scenes with diffuse shading, multiple light sources, light attenuation, reflections, transparency & refraction, soft shadows, depth of field, texture mapping and depthcueing. It utilizes a bounding volume hierarchy to efficiently render scenes with more complex geometry, and also has a custom "scene description" file parser that supports OBJ models with normals, uvs and material properties.</p>
+								<p>I built this ray tracer from scratch using C++ for a semester-long project in <i>CSCI 5607: Computer Graphics</i>.</p>
+								<p>This ray tracer is capable of rendering scenes with diffuse shading, multiple light sources, light attenuation, reflections, transparency & refraction, soft shadows, depth of field, texture mapping and depthcueing. It utilizes a bounding volume hierarchy (BVH) to efficiently render scenes with more complex geometry, and also has a custom "scene description" file parser that supports OBJ models with normals, uvs and material properties.</p>
 							
+								<h2>Key Features</h2>
+								<ul>
+									<li>Ambient, diffuse and specular shading</li>
+									<li>Directional lights</li>
+									<li>Attenuated point lights</li>
+									<li>Depthcueing</li>
+									<li>Hard shadows</li>
+									<li>Soft shadows</li>
+									<li>Reflection</li>
+									<li>Transparency</li>
+									<li>Refraction</li>
+									<li>Depth of field</li>
+									<li>Texture mapping</li>
+									<li>OBJ support</li>
+									<li>BVH acceleration</li>
+								</ul>
 
 								<h2>Challenges</h2>
 								<p>With the ability to interpret arbitrary OBJ models via my custom file parser, I thought it would be fun to test my ray tracer on some higher complexity models, such as the classic <a href="https://graphics.stanford.edu/data/3Dscanrep/">Stanford bunny</a>. Unfortunately, when I first attempted to render the Stanford bunny it took well over 10 minutes to complete. This made it practically impossible to setup a compelling scene since every time I wanted to test a new camera position, tweak the lighting or change the material properties I was forced to wait minutes for a render to complete. </p>
-								<p>To speed things up, I knew I needed to utilize some sort of spacial data structure to avoid the O(N²) computation of checking every ray against every triangle for intersection. To achieve this I implemented a basic bounding volume hierarchy (BVH), partitioning the scene into a tree of bounding boxes, which decreased render times for complex models from minutes to seconds!</p>
+								<p>To speed things up, I knew I needed to utilize some sort of spacial data structure to avoid the O(N²) computation of checking every ray against every triangle for intersection. To achieve this I implemented a basic bounding volume hierarchy, partitioning the scene into a tree of bounding boxes, which decreased render times for complex models from minutes to seconds!</p>
 								<p>While using a BVH allowed for the efficient rendering of much more complex scenes than my ray tracer was initially designed for, and sub-second rendering speeds for simple scenes, if I were to build a ray tracer from scratch again I would absolutely do so utilizing the GPU instead of the CPU.</p>
 								
 								<h2>Demo</h2>
-								<div class="image-row">
+								<div class="image-row" style="margin-left: 5%; margin-right: 5%;">
 									<div class="image-row-column">
 										<figure class = "image main">
 											<img src="images/raytracing/depth-of-field.png">
@@ -65,7 +82,7 @@
 										</figure>
 									</div>
 								</div>
-								<div class="image-row">
+								<div class="image-row" style="margin-left: 5%; margin-right: 5%;">
 									<div class="image-row-column-rt-demo-text">
 										<figure class = "image main">
 											<img src="images/raytracing/demo-scene-description.png">
@@ -80,7 +97,7 @@
 									</div>
 								</div>
 								<div style="margin-top: -1em;" class="image main">
-									<figcaption>Example of a "scene description" input file (left) and its corresponding output (right). Scene description files provide robust control over the camera, lighting, materials and objects rendered in the scene.</figcaption>
+									<figcaption style="margin-left: 5%; margin-right: 5%;">Example of a "scene description" input file (left) and its corresponding output (right). Scene description files provide robust control over the camera, lighting, materials and objects rendered in the scene.</figcaption>
 								</div>
 
 								<h2 style="margin-bottom: -0em;">Tools Used</h2>
