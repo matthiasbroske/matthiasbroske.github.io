@@ -2774,6 +2774,11 @@ input, select, textarea {
 					opacity: 1.0;  /* tile hover background opacity */
 				}
 
+				.is-touch .tiles article > .image:before {
+					background-color: #33333300;
+					opacity: 1.0;  /* tile hover background opacity */
+				}
+
 				body:not(.is-touch) .tiles article:hover > .image:after {
 					opacity: 0;
 				}
@@ -3476,6 +3481,16 @@ input, select, textarea {
 {
 	position: absolute;
 	z-index: -1;
+}
+
+.is-touch .static-tile
+{
+	z-index: -1 !important;
+}
+
+.is-touch .active-tile
+{
+	z-index: 0 !important;
 }
 
 /* Navbar container */
