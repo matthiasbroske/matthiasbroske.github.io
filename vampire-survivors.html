@@ -48,10 +48,18 @@
 								<p>In short, I was tasked with creating a game in which the player fights off hordes of increasingly difficult monsters  using a collection of random, automatically attacking, upgradeable weapons and abilities. This involved creating a basic player controller, a level up system, various enemy types, and a whole bunch of unique items and abilities for the player to use.</p>
 								<p>The game is split into quick, 10 minute levels that are completed by surviving to the end of the level and defeating the final boss.</p>
 							
-								<!-- <h2>Key Features</h2>
+								<h2>Key Features</h2>
 								<ul>
-									<li>Object Pool</li>
-								</ul> -->
+									<li>Object pools for monsters, projectiles, items, chests, damage text, etc.</li>
+									<li>Infinite background shader</li>
+									<li>Mobile and PC input support</li>
+									<li>Enemy spawn chance/rate keyframe system</li>
+									<li>ScriptableObjects for easy character and level design</li>
+									<li>Level up system</li>
+									<li>20+ upgradeable weapons and abilities</li>
+									<li>4 unique enemy types and 2 bosses</li>
+									<li>Mandarin localization</li>
+								</ul>
 
 								<h2>Challenges</h2>
 								<p>During the development of this game I faced a number of interesting challenges.</p>
@@ -60,7 +68,7 @@
 								<p>The first challenge I encountered was that of creating an infinite background for the player to walk across.</p>
 								<p>A classic approach to this problem would be to place several large, seamless tiles around the player's position and then as soon as the player nears the edge of one tile, bring a tile that had already moved entirely offscreen on the opposite side to the side in front of the player, thereby reusing tiles to give the illusion of an infinite background. While simple to implement, I chose not take this approach as it failed to meet a self-imposed requirement of mine: create an infinite background without the appearance of obviously repeating tiles.</p>
 								<p>Knowing that I wanted to remove any evidence of repeating tiles, for my actual solution to this problem I began by implementing a custom non-repeating texture shader, as <a href="https://iquilezles.org/articles/texturerepetition/">discussed here</a>. This allowed me to use any texture I wanted for the background image, seamless or not, without any obvious signs of repetition.</p>
-								<div class="image-row">
+								<div class="image-row width90">
 									<div class="image-row-column">
 										<figure class = "image main">
 											<img src="images/vampire/repetitive-tiling.png">
@@ -75,18 +83,18 @@
 									</div>
 								</div>
 								<p>To give the illusion of the player walking across an infinite background, I fixed a screen-sized quad with this custom shader applied to the player's position so that they moved together in tandem. I then made a slight modification to the shader so that instead of doing background texture samples based on preset vertex UVs, each fragment sampled the background texture based on its world position. This meant that as the player moved throughout the scene the coordinates used for background texture lookups changed based on the world position of the player. Just like that, this gave the appearance that the player was walking over an infinite, non-repeating background.</p>
-								<figure class = "image main" style="width: 75%; margin-left: auto; margin-right: auto;">
+								<figure class = "image main width70">
 									<img src="images/vampire/infinite-terrain-demo.gif">
 									<figcaption>A behind the scenes demonstration of how the infinite background really works. A screen-sized quad with the infinite terrain shader applied follows the player (top), giving the illusion that the player is walking across an infinite background (bottom).</figcaption>
 								</figure>
 								<p>One issue with this approach is that as the player gets farther and farther from the origin, floating point imprecision causes artifacts to appear when sampling the texture since the lookup coordinates are derived from the player's world position.</p>
-								<figure class = "image main">
+								<figure class = "image main width80">
 									<img src="images/vampire/texture-sampling-issues.gif">
 									<figcaption>Extreme example of texture sampling artifacts when the player moves very far away from the origin.</figcaption>
 								</figure>
 								<p>While it is rare that the player ever runs far enough away from the origin to encounter this issue, I made an attempt to combat it nevertheless.</p>
 								<p>Once the player has walked far enough away from the origin, an offset is applied to the world space position of each fragment inside the shader so that the texture lookup coordinates are once again near the origin, and the player's current position is saved as a new "origin." If the player walks far enough away from this new origin, this process will repeat itself. Of course, applying an instant offset to the texture lookup coordinates would lead to an abrupt and confusing sensation of teleportation for the player. Instead, once the player has walked far enough away from the origin, the shader samples the background texture at both the current world position and the new offset world position, blending from one to the other over time such that it is effectively imperceptible to the player that the background is being reset back to a position near the origin.</p>
-								<figure class = "image main">
+								<figure class = "image main width80">
 									<img src="images/vampire/background-blending.gif">
 									<figcaption>Demonstration of the background blending back to a point closer to the origin, slow enough that it is practically imperceptible to the player (try focusing on a single point in the background and watch as it slowly fades away into something different).</figcaption>
 								</figure>
@@ -101,11 +109,11 @@
 									<li>Next, the developer does the same thing, but for "spawn rate keyframes," which specify the overall spawn rate of all the enemies at given points in time.</li>
 									<li>Finally, when the level is played, the EnemySpawner script interpolates between keyframes to determine the exact spawn chance of every enemy at the current point in time, as well as the exact spawn rate, and spawns enemies accordingly.</li>
 								</ul>
-								<figure class = "image main">
+								<figure class = "image main width75">
 									<img src="images/vampire/enemy-spawn-chance.png">
 									<figcaption>Enemy spawn chance keyframes for the first level. Crab enemies have a 100% spawn chance for the first 5% of the level, but at 35% through the level crabs only have a 15% chance to spawn, aliens have a 60% chance to spawn, and ghosts have a 25% chance to spawn. The large spike in crab spawn chance near the middle of the level corresponds to when the level's first miniboss appears, at which point limiting the types of enemies that can spawn to only crabs (the weakest enemy) allows the player to fully focus on the boss fight.</figcaption>
 								</figure>
-								<figure class = "image main">
+								<figure class = "image main width75">
 									<img src="images/vampire/enemy-spawn-rate.png">
 									<figcaption>Enemy spawn rate keyframes for the first level. The enemy spawn rate generally increases over time, with exceptions at the middle and end of the level when bosses are spawned. This was done to make the boss fights more fair for the player.</figcaption>
 								</figure>
@@ -116,7 +124,7 @@
 								<p>Following are demonstrations of some of the core systems in the game.</p> 
 								<h3>Level Up</h3>
 								<p>The player level ups by collecting XP gems dropped from slain enemies. When leveling up, the player is given a choice between three options consisting of new abilities as well as upgrades to abilities they already own.</p>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/vampire/level-up.gif">
 									<figcaption>The player levels up and is given the choice between 3 random abilities: throwing stars, dagger, and attack cooldown decrease.</figcaption>
 								</figure>
@@ -124,17 +132,17 @@
 								<p>The game contains 20+ unique weapons and abilities.</p>
 								<p>Each ability has a likelihood of appearing in the level up screen based on its rarity, where rarity is generally correlated with how powerful the ability is.</p>
 								<p>Abilities are also upgradeable, meaning that once they have been acquired for the first time they have a chance of appearing in the level up screen again, giving the player the opportunity to further improve them.</p>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/vampire/level-up-screen.png">
 									<figcaption>Example of a level up screen that includes upgrades for already owned abilities. For instance, the machine gun can be upgraded from level 1 to level 2, increasing the number of bullets it fires before reloading by 5, its attack damage by 100%, and decreasing its cooldown/reload by 10%.</figcaption>
 								</figure>
 								<p>A key challenge I encountered while developing the abilities was making them not only visually distinct, but also mechanically distinct from one another. For example, I was asked to add three projectile-based weapons to the game -- a bazooka, throwing stars, and a machine gun. Initially, I had all projectile-based abilities inheriting from the same "Projectile Ability" class that simply launched projectiles in the direction of the player's movement. Naturally, when more than one projectile-based ability was in use at the same time, this lead to a visually messy and very one-note gameplay experience. To resolve this specific issue, I gave each weapon its own distinct firing mode: the bazooka locks on to the closest enemy and launches an explosive projectile at it, whereas the machine gun orbits the player and fires outward in all directions, while the throwing star is simply launched in the direction the player is moving. In general, for any weapons of similar type (e.g. all melee weapons), time was taken to ensure that despite being similar, each weapon attacks slightly differently, or occupies a different part of the screen than its counterparts. This went a long way into making each ability feel unique.</p>
 								<p>Below are demonstrations of a handful of abilities from the game:</p>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/vampire/boomerang-abilities.gif">
 									<figcaption>One of three "Boomerang" type abilities, the lightsaber is automatically thrown in the direction of the nearest enemy (found using a custom grid-based spatial data structure), damaging all enemies along its path before returning to the player. As this is an upgraded version of the ability, two lightsabers are thrown instead of one.</figcaption>
 								</figure>
-								<div class="image-row">
+								<div class="image-row width90">
 									<div class="image-row-column">
 										<figure class = "image main">
 											<img src="images/vampire/bat-ability.gif">
@@ -148,7 +156,7 @@
 										</figure>
 									</div>
 								</div>
-								<div class="image-row">
+								<div class="image-row width90">
 									<div class="image-row-column">
 										<figure class = "image main">
 											<img src="images/vampire/bazooka-ability.gif">
@@ -162,7 +170,7 @@
 										</figure>
 									</div>
 								</div>
-								<div class="image-row">
+								<div class="image-row width90">
 									<div class="image-row-column">
 										<figure class = "image main">
 											<img src="images/vampire/grenade-ability.gif">
@@ -177,7 +185,7 @@
 									</div>
 								</div>
 								<p>Not all abilities grant weapons. Instead, some abilities grant global upgrades which apply to all of the player's weapons/abilities. For example, there's an ability that increases the area of effect (AOE) of all abilities that have an AOE (such as bazooka, molotov, etc.), an ability that increases the damage of all damaging abilities, and most fun of all, an ability that increases the projectile count of all projectile-based weapons (including grenades, molotovs, axes and more).</p>
-								<div class="image-row">
+								<div class="image-row width90">
 									<div class="image-row-column">
 										<figure class = "image main">
 											<img src="images/vampire/projectile-bazooka.gif">
@@ -189,7 +197,7 @@
 										</figure>
 									</div>
 								</div>
-								<div class="image-row">
+								<div class="image-row width90">
 									<div class="image-row-column">
 										<figure class = "image main">
 											<img src="images/vampire/projectile-grenade.gif">
@@ -203,7 +211,7 @@
 										</figure>
 									</div>
 								</div>
-								<div style="margin-top: -1em;" class="image main">
+								<div style="margin-top: -1em;" class="image main width90">
 									<figcaption>Projectile count upgrade demonstrated on a variety of weapons. In the grenade's case, note how not only are more grenades thrown, but also every grenade splits into more projectiles.</figcaption>
 								</div>
 								<p>In many ways, the heart of the game lies in using these global upgrades along with each ability's unique upgrade path to create exponentially powerful, game-breaking builds.</p>
@@ -211,7 +219,7 @@
 								<h3>Enemies</h3>
 								<p>There are currently 4 unique basic enemy types as well as 2 boss enemies in the game.</p>
 								<p>The basic enemy types are melee, ranged projectile, boomerang, and grenade throwing enemies, where each type includes enemies of varying strength, speed, health, etc.</p>
-								<div class="image-row">
+								<div class="image-row width90">
 									<div class="image-row-column">
 										<figure class = "image main">
 											<img src="images/vampire/melee-1.gif">
@@ -232,9 +240,9 @@
 									</div>
 								</div>
 								<div style="margin-top: -1em;" class="image main">
-									<figcaption>Three melee enemy variants, organized weakest to strongest from left to right. Melee enemies automatically deal damage to the player on collision, but have varying walk speeds, attack rates, and health points.</figcaption>
+									<figcaption class="width90">Three melee enemy variants, organized weakest to strongest from left to right. Melee enemies automatically deal damage to the player on collision, but have varying walk speeds, attack rates, and health points.</figcaption>
 								</div>
-								<div class="image-row">
+								<div class="image-row width90">
 									<div class="image-row-column">
 										<figure class = "image main">
 											<img src="images/vampire/monster-projectile.gif">
@@ -255,7 +263,7 @@
 									</div>
 								</div>
 								<p>Bosses are made up of a collection of modular abilities, such that new bosses can be quickly created by simply utilizing a different combination of pre-existing boss abilities. The three abilities that have been created so far are the charge ability, the shotgun ability, and the grenade throw ability. The boss chooses which ability to use at any given time via the strategy design pattern, in which each ability is scored based on how useful it is to the boss at that moment, and the boss chooses the ability with the highest score.</p>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/vampire/boss.gif">
 									<figcaption>The boss throws grenades, charges, and shoots a shotgun-like spread of projectiles towards the player to finally finish them off.</figcaption>
 								</figure>
@@ -275,7 +283,7 @@
 										</figure>
 									</div>
 								</div>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/vampire/item-magnet.gif">
 									<figcaption>The magnet item collects every non-collected XP gem in the level. When used in combination with the bomb item, this can cause the player to level up several times in a row.</figcaption>
 								</figure>

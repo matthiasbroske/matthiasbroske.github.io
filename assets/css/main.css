@@ -3441,6 +3441,9 @@ input, select, textarea {
 {
 	display: flex;
 	gap: 1em;
+	width: 90% !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
 }
 
 .image-row-column
@@ -3639,3 +3642,31 @@ input, select, textarea {
 	margin-top: 0.5em;
 	margin-bottom: 0.25em;
 } */
+
+.width90
+{
+	width: 90% !important; 
+	margin-left: auto !important; 
+	margin-right: auto !important;
+}
+
+.width80
+{
+	width: 80% !important; 
+	margin-left: auto !important; 
+	margin-right: auto !important;
+}
+
+.width75
+{
+	width: 75% !important; 
+	margin-left: auto !important; 
+	margin-right: auto !important;
+}
+
+.width70
+{
+	width: 70% !important; 
+	margin-left: auto !important; 
+	margin-right: auto !important;
+}
