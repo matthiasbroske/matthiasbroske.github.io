@@ -33,7 +33,7 @@
 							<div class="project-header">
 								<h1>Inverse Kinematics</h1>
 								<h2>An inverse kinematics solver used to drive procedural animation.</h2>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/ik/header.gif">
 									<figcaption>
 										An procedurally animated creature uses IK to seamlessly traverses up and down stairs.</figcaption>
@@ -43,13 +43,21 @@
 								<h2>Description</h2>
 								<p>This was my submission for a class project in <i>CSCI 5611: Animation & Planning in Games</i>. The goal of this project was simply to implement a basic inverse kinematics (IK) solver with angle constraints. I expanded on this by using my IK solver to create a procedurally animated creature that could dynamically traverse its environment.</p>
 								
+								<h2>Key Features</h2>
+								<ul>
+									<li>Cyclic Coordinate Decent Inverse Kinematics (CCDIK)</li>
+									<li>Forward And Backward Reaching Inverse Kinematics (FABRIK)</li>
+									<li>Pole targets</li>
+									<li>Procedural animation</li>
+								</ul>
+
 								<h2>Discussion</h2>
 								<h3>Inspiration</h3>
 								<p>The inspiration for how I approached this project came from the following reddit post, which I happened upon a few years ago and had always been interested in testing out for myself:</p>
 								<blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="546"><a href="https://www.reddit.com/r/Unity3D/comments/fqabkx/i_tried_to_explain_procedural_animation_in_10/">I tried to explain procedural animation in 10 steps</a><br> by<a href="https://www.reddit.com/user/happygamedev/">u/happygamedev</a> in<a href="https://www.reddit.com/r/Unity3D/">Unity3D</a></blockquote>
 								<h3>CCDIK</h3>
 								<p>Thus, my first step was to implement an IK solver! I decided to start with CCDIK as it seemed to be the most straight-forward implementation that would also enable me to apply angle constraints to the joints — a requirement of the assignment. To my surprise, I found that utilizing all of the bells and whistles that Unity has to offer allows a CCDIK implementation to be completed in roughly five lines of code:</p>
-								<pre style="margin-top: -2em; margin-bottom: -3em;">
+								<pre style="margin-top: -2em; margin-bottom: -3em; margin-left: 2em; margin-right: 2em;">
 									<code>
 for (int i = joints.Length - 2; i >= 0; i--) // Iterate through the joints, skipping the end effector but including the root
 {
@@ -63,41 +71,41 @@ for (int i = joints.Length - 2; i >= 0; i--) // Iterate through the joints, skip
 								<p>My final CCDIK implementation allowed for angle constraints on all of the joints, and was therefore a fair bit more convoluted than the implementation above.</p>
 								<h3>Let's Animate!</h3>
 								<p>Following the rest of the steps in the reddit post, I was left with the following procedurally animated creature:</p>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/ik/fail-1.gif">
 								</figure>
 								<p>Huh? That doesn't seem quite right... Maybe fiddling around with the angle constraints will help?</p>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/ik/fail-2.gif">
 								</figure>
 								<p>Still no good... (it appears to be making contact with the ground from underneath — a novel technique to say the least)</p>
 								<h3>Pole Targets</h3>
 								<p>While it might not be immediately evident from the GIFs above, the problem (as I saw it) lay in the size of the solution space that my IK solver provided. In short, the number of possible configurations that the joints could be positioned in to reach a particular goal in 3D was too large to consistently have the legs positioned in natural configuration (which is why it was more than happy to position the creature's ankles underneath the ground).</p>
 								<p>I needed some way to give the IK solver additional guidance in terms of the exact solutions I'd like to see, and thereby decrease the size of the solution space. To that end I did a bit of poking around and discovered that many IK solvers have an additional feature: the notion of "pole targets". As far as I understand it, pole targets allow you to "pull" the (joints of an) IK solution in a particular direction/orientation, so that you limit the range of the solution space to (ideally) better match your desired animation. Here's an example of a pole target being used to control knee orientation in Blender (taken from <a href="https://www.youtube.com/watch?v=suP14lYWpN8">this YouTube video</a>):</p>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/ik/pt-ex.gif">
 								</figure>
 								<h3>FABRIK</h3>
 								<p>Unsure of how exactly to get this notion of pole targets into my CCDIK solver, I decided to go ahead and implement the FABRIK solver as well since the direct control it provides over the position of the joints (as opposed to their angles) seemed like it would grant the flexibility I needed to solve this problem.</p>
 								<p>With FABRIK implemented, the first idea that came to mind for how I might go about introducing the notion of pole targets into my solver was to simply position the joints at their pole target positions every frame before running the FABRIK solver, and see if that encouraged them to maintain that orientation after a solution was arrived at. Turns out, it mostly did, and so with that simple solution in place I was left with a greater degree of control over the legs of my creature:</p>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/ik/pt-working.gif">
 								</figure>
 								<p> Putting it all together with a basic character controller and some obstacles to walk over, here's our simple "procedurally animated" creature:</p>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/ik/demo-0.gif">
+									<figcaption>Demonstration of the creature traversing bumpy terrain.</figcaption>
 								</figure>
-
-								<h2>Demo</h2>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/ik/demo-2.gif">
 									<figcaption>Demonstration of the creature rotating in a tricky spot.</figcaption>
 								</figure>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/ik/demo-3.gif">
 									<figcaption>The creature is also capable of scaling vertical surfaces.</figcaption>
 								</figure>
-								<figure class = "image main">
+								<h2>Demo</h2>
+								<figure class = "image main width90">
 									<img src="images/ik/demo-4.gif">
 									<figcaption>Demonstration of the actual IK solver used to animate the creature. The pink square is it's target/goal position.</figcaption>
 								</figure>
