@@ -42,6 +42,13 @@
 								<h2>Description</h2>
 								<p>This was my submission for a class project in <i>CSCI 5611: Animation & Planning in Games</i>. The goal of the project was to create "a simulation of at least one agent navigating through an obstacle filled environment without collision in 2D." I expanded on this by simulating multiple agents at once, and visualizing the simulation in 3D instead of 2D using the Unity game engine.</p>
 								
+								<h2>Key Features</h2>
+								<ul>
+									<li>A* pathfinding algorithm</li>
+									<li>Probablistic roadmap (PRM)</li>
+									<li>2D collision detection</li>
+								</ul>
+
 								<h2>Discussion</h2>
 								<p>While at first glance the scene appears to be composed of a variety of complex 3D objects, under the hood each of these objects is represented by a basic 2D geometric collision primitive, such as rectangle or a circle. This allows for a simple 2D pathfinding solution to be used to control the motion of the 3D agents (cows).</p>
 								<div class="image-row">
@@ -59,22 +66,22 @@
 									</div>
 								</div>
 								<p>Note how each piece of geometry appears to have two collision outlines around it: one in red and one in green. The red outlines make up the true 2D collision geometry of the object, while the green outlines make up an approximate Minkowski sum accounting for the cow's collision radius. In this way, cows can be treated as nothing more than points in space when resolving collisions, greatly simplifying pathfinding.</p>
-								<p>In order to generate walkable paths for the cows to traverse, a Probabilistic Roadmap is generated along with a few hand placed nodes. These nodes are connected to generate a collision-free traversal graph throughout the farm, and then the A* pathfinding algorithm is used to find the shortest path between two points along this graph.</p>
-								<figure class = "image main">
+								<p>In order to generate walkable paths for the cows to traverse, a probabilistic roadmap (PRM) is generated along with a few hand placed nodes. These nodes are connected to generate a collision-free traversal graph throughout the farm, and then the A* pathfinding algorithm is used to find the shortest path between two points along this graph.</p>
+								<figure class = "image main width75">
 									<img src="images/pathfinding/prm.png">
 									<figcaption>A traversal graph generated using nodes placed by the PRM as well as by hand, and connected in collision free segments (yellow). The blue lines are paths that cows have chosen to travel along using A*.</figcaption>
 								</figure>
 								<p>Note that some graph nodes are hand-placed (the blue spheres in the image below) to ensure consistent and interesting pathing through tricky obstacles.</p>
 								<p>This could have been avoided, however, had a more robust node selection algorithm been used, or had I simply added more points to the PRM. </p>
-								<figure class = "image main">
+								<figure class = "image main width75">
 									<img src="images/pathfinding/handplaced.png">
 								</figure>
-								<figure class = "image main">
+								<figure class = "image main width75">
 									<img src="images/pathfinding/tight-gap.gif">
 									<figcaption>A demonstration of a cow traversing through a tight gap between rocks. Its collider is visualized as a red circle here, and should never overlap the red circle of another collidable object (aside from other cows).</figcaption>
 								</figure>
 								<p>With collision free paths throughout the farm, the cows are free to wander as they please before they are all called home for the day!</p>
-								<figure class = "image main">
+								<figure class = "image main width80">
 									<img src="images/pathfinding/demo-2.gif">
 								</figure>
 
