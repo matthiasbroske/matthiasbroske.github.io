@@ -44,23 +44,30 @@
 								<h2>Description</h2>
 								<p>I built this Unity package from scratch as an undergrad in the University of Minnesota's IV/Lab to assist with a number of interesting visualization challenges and research projects, such as the <a href="https://virtual.ieeevis.org/year/2022/poster_v-vis-posters-1046.html">Analysis of Cyclical 4D Skeletal Motion Data</a>.</p>
 								<p>This package provides basic plotting functionality for scatter plots, cluster plots, line plots and parallel coordinate plots, as well as a robust linkage between those plots and any other visualization the user wishes to connect. This is particularly useful for high-dimensional datasets in which more than 2 variables need to be compared at once, or datasets that have interrelated 2D and 3D data that necessitates side-by-side visualization.</p>
-							
-
-								<h2>Challenges</h2>
-								<p>With the ability to interpret arbitrary OBJ models via my custom file parser, I thought it would be fun to test my ray tracer on some higher complexity models, such as the classic <a href="https://graphics.stanford.edu/data/3Dscanrep/">Stanford bunny</a>. Unfortunately, when I first attempted to render the Stanford bunny it took well over 10 minutes to complete. This made it practically impossible to setup a compelling scene since every time I wanted to test a new camera position, tweak the lighting or change the material properties I was forced to wait minutes for a render to complete. </p>
-								<p>To speed things up, I knew I needed to utilize some sort of spacial data structure to avoid the O(N²) computation of checking every ray against every triangle for intersection. To achieve this I implemented a basic bounding volume hierarchy (BVH), partitioning the scene into a tree of bounding boxes, which decreased render times for complex models from minutes to seconds!</p>
-								<p>While using a BVH allowed for the efficient rendering of much more complex scenes than my ray tracer was initially designed for, and sub-second rendering speeds for simple scenes, if I were to build a ray tracer from scratch again I would absolutely do so utilizing the GPU instead of the CPU.</p>
 								
+								<h2>Key Features</h2>
+								<ul>
+									<li>Brushing and filtering between multiple 2D/3D linked views</li>
+									<li>Scatter plots</li>
+									<li>Parallel coordinates plots</li>
+									<li>Cluster plots</li>
+									<li>Line plots</li>
+									<li>Screen space and world space canvas support</li>
+									<li>VR interaction support</li>
+									<li>Custom UI "Plot Skins" via ScriptableObjects</li>
+									<li>Color mapping</li>
+								</ul>
+
 								<h2>Demo</h2>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/linkedplots/cars-demo.gif">
 									<figcaption>Mock demonstration of how selecting data points related to cars in a 2D plots instantly propagates to all other 2D plots as well as a 3D visualization.</figcaption>
 								</figure>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/linkedplots/voxels-demo.gif">
 									<figcaption>Demonstration of individual voxels in a mock 3D voxel volume being selected with linked plots package.</figcaption>
 								</figure>
-								<figure class = "image main">
+								<figure class = "image main width90">
 									<img src="images/linkedplots/vr-demo.gif">
 									<figcaption>Demonstration of the linked plots package being used to select proton radiation treatment plans from DVH curves in a VR environment.</figcaption>
 								</figure>
