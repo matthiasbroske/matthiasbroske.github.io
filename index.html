@@ -71,14 +71,23 @@
 									</ul>
 								</div>
 								<hr>
-								<div>
+								<!-- <div>
 									<h1 class="projects-header">
 										&gt SELECTED PROJECTS &lt
 									</h1>
-								</div>
+								</div> -->
 							</header>
+							<h1 class="projects-header">&gt Selected Projects &lt</h1>
+							<ul class="Tabs">
+								<li data-filter="all" class="Tabs__tab Tab active"><a href="#">All</a></li>
+								<li data-filter="game" class="Tabs__tab Tab"><a href="#">Games</a></li>
+								<li data-filter="graphics" class="Tabs__tab Tab"><a href="#">Graphics</a></li>
+								<li data-filter="simulation" class="Tabs__tab Tab"><a href="#">Simulations</a></li>
+								<li data-filter="tool" class="Tabs__tab Tab"><a href="#">Tools</a></li>
+								<li class="Tabs__presentation-slider" role="presentation"></li>
+							</ul>
 							<section class="tiles">
-								<article class="magic-tile style">
+								<article class="magic-tile style filterable-tile game unity">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/vampire-survivors-tile.gif"/>
 										<img class="static-tile" src="images/tiles/vampire-survivors-tile.png"/>
@@ -90,7 +99,7 @@
 										</div>
 									</a>
 								</article>
-								<article class="magic-tile style">
+								<article class="magic-tile style filterable-tile graphics">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/ray-tracing-renderer-tile.gif"/>
 										<img class="static-tile" src="images/tiles/ray-tracing-renderer-tile.png"/>
@@ -102,7 +111,7 @@
 										</div>
 									</a>
 								</article>
-								<article class="magic-tile style">
+								<article class="magic-tile style filterable-tile tool unity">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/linked-plots-package-tile.gif"/>
 										<img class="static-tile" src="images/tiles/linked-plots-package-tile.png"/>
@@ -114,7 +123,7 @@
 										</div>
 									</a>
 								</article>
-								<article class="magic-tile style">
+								<article class="magic-tile style filterable-tile game unity">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/planet-impact-tile.gif"/>
 										<img class="static-tile" src="images/tiles/planet-impact-tile.png"/>
@@ -126,7 +135,7 @@
 										</div>
 									</a>
 								</article>
-								<article class="magic-tile style">
+								<article class="magic-tile style filterable-tile graphics simulation unity GPU">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/arctic-angler-tile.gif"/>
 										<img class="static-tile" src="images/tiles/arctic-angler-tile.png"/>
@@ -138,7 +147,7 @@
 										</div>
 									</a>
 								</article>
-								<article class="magic-tile style">
+								<article class="magic-tile style filterable-tile simulation unity">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/inverse-kinematics-tile.gif"/>
 										<img class="static-tile" src="images/tiles/inverse-kinematics-tile.png"/>
@@ -150,7 +159,7 @@
 										</div>
 									</a>
 								</article>
-								<article class="magic-tile style">
+								<article class="magic-tile style filterable-tile simulation unity graphics GPU">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/fluids-tile.gif"/>
 										<img class="static-tile" src="images/tiles/fluids-tile.png"/>
@@ -162,7 +171,7 @@
 										</div>
 									</a>
 								</article>
-								<article class="magic-tile style">
+								<article class="magic-tile style filterable-tile simulation unity GPU">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/cloth-tile.gif"/>
 										<img class="static-tile" src="images/tiles/cloth-tile.png"/>
@@ -174,7 +183,7 @@
 										</div>
 									</a>
 								</article>
-								<article class="magic-tile style">
+								<article class="magic-tile style filterable-tile simulation unity">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/pathfinding-simulation-tile.gif"/>
 										<img class="static-tile" src="images/tiles/pathfinding-simulation-tile.png"/>
@@ -186,7 +195,7 @@
 										</div>
 									</a>
 								</article>
-								<article class="magic-tile style">
+								<article class="magic-tile style filterable-tile game unity">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/hanzi-dachu-tile.gif"/>
 										<img class="static-tile" src="images/tiles/hanzi-dachu-tile.png"/>
@@ -198,7 +207,7 @@
 										</div>
 									</a>
 								</article>
-								<article class="magic-tile style">
+								<article class="magic-tile style filterable-tile graphics">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/ray-marching-tile.gif"/>
 										<img class="static-tile" src="images/tiles/ray-marching-tile.png"/>
@@ -210,7 +219,7 @@
 										</div>
 									</a>
 								</article>
-								<article class="magic-tile style">
+								<article class="magic-tile style filterable-tile graphics">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/hdr-tile.gif"/>
 										<img class="static-tile" src="images/tiles/hdr-tile.png"/>
@@ -284,6 +293,43 @@
 						$nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height()/2);
 					});
 				});
+
+				var tabs = document.getElementsByClassName('Tab');
+				Array.prototype.forEach.call(tabs, function(tab) {
+					tab.addEventListener('click', setActiveClass)
+				});
+				function setActiveClass(evt) {
+					evt.preventDefault();
+					Array.prototype.forEach.call(tabs, function(tab) {
+						tab.classList.remove('active');
+					});
+					evt.currentTarget.classList.add('active');
+					filterSelection(evt.currentTarget.dataset.filter);
+				}
+
+				filterSelection("all")
+				function filterSelection(c) {
+					var x, i;
+					x = document.getElementsByClassName("filterable-tile");
+					if (c == "all") c = "filterable-tile";
+					// Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
+					for (i = 0; i < x.length; i++) {
+						// x[i].classList.add("reset-animation");
+						// x[i].classList.remove("shown-tile");
+						x[i].classList.remove("shown-tile");
+						// x[i].style.display = "none";
+						x[i].style.opacity = "0.25";
+						// x[i].classList.add("hidden-tile");
+						if (x[i].classList.contains(c)) 
+						{
+							x[i].style.display = "block";
+							x[i].style.opacity = "1";
+							// x[i].classList.remove('is-preload');
+							// x[i].classList.remove("hidden-tile");
+							x[i].classList.add("shown-tile");;//w3AddClass(x[i], "shown-tile");
+						}
+					}
+				}
 			</script>
 
 	</body>
