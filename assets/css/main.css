@@ -3815,20 +3815,9 @@ input, select, textarea {
 .filterable-tile
 {
 	pointer-events: none;
-  	/* cursor: default; */
-	/* display: none; */
-
-		/* transition: scale 0.2s ease;
-		scale: 0; */
 }
 
 .shown-tile
 {
 	pointer-events: all;
-  	/* cursor:auto; */
-	/* display: block; */
-
-		/* visibility: visible;
-		transition: visibility 0s, opacity 0.2s ease;
-		opacity: 1; */
 }

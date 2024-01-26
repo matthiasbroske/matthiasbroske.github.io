@@ -83,7 +83,8 @@
 								<li data-filter="game" class="Tabs__tab Tab"><a href="#">Games</a></li>
 								<li data-filter="graphics" class="Tabs__tab Tab"><a href="#">Graphics</a></li>
 								<li data-filter="simulation" class="Tabs__tab Tab"><a href="#">Simulations</a></li>
-								<li data-filter="tool" class="Tabs__tab Tab"><a href="#">Tools</a></li>
+								<li data-filter="unity" class="Tabs__tab Tab"><a href="#">Unity</a></li>
+								<!-- <li data-filter="tool" class="Tabs__tab Tab"><a href="#">Tools</a></li> -->
 								<li class="Tabs__presentation-slider" role="presentation"></li>
 							</ul>
 							<section class="tiles">
@@ -159,18 +160,6 @@
 										</div>
 									</a>
 								</article>
-								<article class="magic-tile style filterable-tile simulation unity graphics GPU">
-									<span class="image">
-										<img class="active-tile" src="images/tiles/fluids-tile.gif"/>
-										<img class="static-tile" src="images/tiles/fluids-tile.png"/>
-									</span>
-									<a href="stable-fluids.html">
-										<h2>Fluid Simulation</h2>
-										<div class="content">
-											<p>A GPU-accelerated Stable Fluids simulation</p>
-										</div>
-									</a>
-								</article>
 								<article class="magic-tile style filterable-tile simulation unity GPU">
 									<span class="image">
 										<img class="active-tile" src="images/tiles/cloth-tile.gif"/>
@@ -180,6 +169,18 @@
 										<h2>Cloth Simulation</h2>
 										<div class="content">
 											<p>A GPU-accelerated cloth simulation</p>
+										</div>
+									</a>
+								</article>
+								<article class="magic-tile style filterable-tile simulation unity graphics GPU">
+									<span class="image">
+										<img class="active-tile" src="images/tiles/fluids-tile.gif"/>
+										<img class="static-tile" src="images/tiles/fluids-tile.png"/>
+									</span>
+									<a href="stable-fluids.html">
+										<h2>Fluid Simulation</h2>
+										<div class="content">
+											<p>A GPU-accelerated Stable Fluids simulation</p>
 										</div>
 									</a>
 								</article>
@@ -312,21 +313,13 @@
 					var x, i;
 					x = document.getElementsByClassName("filterable-tile");
 					if (c == "all") c = "filterable-tile";
-					// Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
 					for (i = 0; i < x.length; i++) {
-						// x[i].classList.add("reset-animation");
-						// x[i].classList.remove("shown-tile");
 						x[i].classList.remove("shown-tile");
-						// x[i].style.display = "none";
 						x[i].style.opacity = "0.25";
-						// x[i].classList.add("hidden-tile");
 						if (x[i].classList.contains(c)) 
 						{
-							x[i].style.display = "block";
 							x[i].style.opacity = "1";
-							// x[i].classList.remove('is-preload');
-							// x[i].classList.remove("hidden-tile");
-							x[i].classList.add("shown-tile");;//w3AddClass(x[i], "shown-tile");
+							x[i].classList.add("shown-tile");
 						}
 					}
 				}
