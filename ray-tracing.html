@@ -41,10 +41,6 @@
 								</figure>
 							</div>
 							<div class="project-description">
-								<h2>Description</h2>
-								<p>I built this ray tracer from scratch using C++ for a semester-long project in <i>CSCI 5607: Computer Graphics</i>.</p>
-								<p>This ray tracer is capable of rendering scenes with diffuse shading, multiple light sources, light attenuation, reflections, transparency & refraction, soft shadows, depth of field, texture mapping and depthcueing. It utilizes a bounding volume hierarchy (BVH) to efficiently render scenes with more complex geometry, and also has a custom "scene description" file parser that supports OBJ models with normals, uvs and material properties.</p>
-							
 								<h2>Key Features</h2>
 								<ul>
 									<li>Ambient, diffuse and specular shading</li>
@@ -61,6 +57,10 @@
 									<li>OBJ support</li>
 									<li>BVH acceleration</li>
 								</ul>
+
+								<h2>Description</h2>
+								<p>I built this ray tracer from scratch using C++ as part of a semester-long project in <i>CSCI 5607: Computer Graphics</i>.</p>
+								<p>This ray tracer is capable of rendering scenes with diffuse shading, multiple light sources, light attenuation, reflections, transparency & refraction, soft shadows, depth of field, texture mapping and depthcueing. It utilizes a bounding volume hierarchy (BVH) to efficiently render scenes with more complex geometry, and also has a custom "scene description" file parser that supports OBJ models with normals, uvs and material properties.</p>							
 
 								<h2>Challenges</h2>
 								<p>With the ability to interpret arbitrary OBJ models via my custom file parser, I thought it would be fun to test my ray tracer on some higher complexity models, such as the classic <a href="https://graphics.stanford.edu/data/3Dscanrep/">Stanford bunny</a>. Unfortunately, when I first attempted to render the Stanford bunny it took well over 10 minutes to complete. This made it practically impossible to setup a compelling scene since every time I wanted to test a new camera position, tweak the lighting or change the material properties I was forced to wait minutes for a render to complete. </p>
