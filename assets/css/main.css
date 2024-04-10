@@ -3698,6 +3698,13 @@ input, select, textarea {
 	margin-right: auto !important;
 }
 
+.width50
+{
+	width: 50% !important; 
+	margin-left: auto !important; 
+	margin-right: auto !important;
+}
+
 .Tabs {
 	position: relative;
 	/* background-color: #fff; */
