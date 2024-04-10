@@ -10,6 +10,7 @@ let appHeader = `
     <div class="dropdown">
         <a>Projects <i class="fa fa-caret-down"></i></a>
         <div class="dropdown-content">
+            <a href="curvature-rendering.html">Curvature-Directed Rendering</a>
             <a href="vampire-survivors.html">Vampire Survivors Clone</a>
             <a href="ray-tracing.html">Ray Tracing Renderer</a>
             <a href="linked-plots.html">Linked Plots Package</a>

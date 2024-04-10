@@ -1,0 +1,256 @@
+<!DOCTYPE HTML>
+<!--
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Curvature Rendering</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+	</head>
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="new-header">
+				</header>
+
+				<!-- Menu -->
+				
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<div class="project-header">
+								<h1>Curvature-Directed Rendering</h1>
+								<a href="https://github.com/matthiasbroske/CurvatureDirectedRendering" class="button icon solid brands fa-github">GitHub</a>
+                                <h2>A perceptually optimal technique for conveying the shape of 3D surfaces, modernized to run in real-time on the GPU.</h2>
+								<figure class = "image main">
+									<img src="images/curvature/header.png">
+									<figcaption>A Signed Distance Field (SDF) of the Stanford Bunny rendered with curvature-directed lines, where line width and length are scaled by first principal curvature to enhance shape perception.</figcaption>
+								</figure>
+							</div>
+							<div class="project-description">
+								<h2>Key Features</h2>
+								<ul>
+									<li>Principal direction/curvature for SDFs</li>
+									<li>Parallel Poisson disk sampling across SDF surfaces</li>
+                                    <li>Procedural geometry generation with compute shaders</li>
+								</ul>
+
+								<h2>Description</h2>
+								<p>I developed this rendering technique while working on a VR visualization system for radiation treatment planning teams at the Mayo Clinic.</p>
+                                <p>A key challenge in the development of this visualization system was determining how to render both the radiation dosage volume and the anatomical context together in one view without them occluding each other.</p>
+                                <p>Building off of <a href="https://www-users.cse.umn.edu/~interran/3Dshape.html">past research</a> on the topic which found that the most perceptually optimal way to render such surface-inside-a-surface interactions involves the usage of curvature-directed lines, I created a entirely GPU-based rendering pipeline that generates curvature-directed lines for SDFs procedurally using compute shaders.</p>
+                            
+                                <div class="image-row" style="margin-left: 5%; margin-right: 5%;">
+                                    <div class="image-row-column-curv-demo-image">
+                                        <figure class = "image main">
+                                            <img src="images/curvature/dosage.png">
+                                            <!-- <figcaption>Lungs rendered with curvature-directed lines </figcaption> -->
+                                        </figure>
+                                    </div>
+									<div class="image-row-column-curv-demo-text">
+										<figure class = "image main">
+											<img src="images/curvature/surface-in-a-surface.png">
+											<!-- <figcaption>Multiple target regions rendered with curvature-directed lines</figcaption> -->
+										</figure>
+									</div>
+								</div>
+                                <div style="margin-top: -1em;" class="image main">
+									<figcaption style="margin-left: 5%; margin-right: 5%;">A demonstration of curvature-directed rendering being applied to the lungs (left) and two target structures (right) in the aforementioned medical visualization system, enabling the visualization of both the surface shape and the radiation dosage volume within.</figcaption>
+								</div>
+								
+                                
+                                <h2>Discussion</h2>
+								<h3>History</h3>
+                                <p>When visualizing 3D data it is often necessary to make complex spatial judgments about how multiple surfaces/volumes fit within one another or overlap. While using transparency is a tempting approach to solving this problem, in reality it is less than ideal. This is because intuiting the shape of surfaces becomes increasingly difficult as lighting queues diminish with increased transparency, not to mention the issue of alpha sorting for overlapping objects.</p>
+                                <p>Instead, research has shown that the most perceptually optimal rendering techniques for facilitating surface-inside-a-surface spatial judgments make use of curvature-directed lines to communicate the shape of one or more of the surfaces. <a href="https://scholar.google.com/citations?user=vQQOZVgAAAAJ&hl=en">V. Interrante</a> is a pioneer in this field, and her research laid the groundwork for the development of the technique demonstrated here.</p>
+                                <p>More specifically, the rendering technique demonstrated here is modernization of Interrante's work, where instead of relying on curvature-directed textures generated offline, every step of the process is now run entirely on the GPU, transforming this into interactive rendering technique run in real-time.</p>
+
+                                <h3>My Implementation</h3>
+                                <p>To generate curvature-directed lines for an SDF in real-time, each of the following steps is run on the GPU via compute shaders:</p>
+                                <figure class = "image main">
+									<img src="images/curvature/pipeline.png">
+									<figcaption></figcaption>
+								</figure>
+                                <ol>
+                                    <li>First, a set of arbitrary points are densely sampled along the surface of the SDF. These points are sampled in the same way that surface points are sampled in the Marching Cubes algorithm, wherein the voxel positions of neighboring voxel pairs in which one voxel sits inside the surface while the other voxel sits outside the surface are interpolated to generate points that lie along the isosoruface of the SDF.</li>
+                                    <li>Second, Poisson disk sampling is used to transform the dense initial point set into a uniform distribution, in which no two points are closer to one another than a specified distance. This is done to improve the perceptual effectiveness of the technique.</li>
+                                    <li>Third, the gradient of the SDF is calculated at every voxel using central differences. The gradient is used in the next step to derive principal curvature, as well as in the last step to give the lines proper normals and ensure they stay fixed to the surface of the SDF.</li>
+                                    <li>Fourth, the first principal direction along with the first principal curvature are computed for each voxel in the SDF. This is done by using the gradients calculated in the previous step to generate a 2D orthonormal basis in the tangent plane at each voxel from which a 2x2 Hessian matrix can be derived. Diagonalizing this matrix, also known as the second fundamental form, gives us its eigenvectors and eigenvalues, which are equivalent to the principal directions and curvatures.</li>
+                                    <li>Finally, a compute shader generates curvature-directed lines outward in both directions from each starting point using the fourth order Runge-Kutta method to integrate a path along the first principal direction.  The principal direction from the previous step is used to maintain heading, and the traced point is projected onto the surface after each step using the gradient of the SDF and the distance to ensure the lines remain fixed to the surface of the SDF. Line length and width is determined by remapping the first principal curvature value of the starting point using min and max values calculated atomically in a compute shader just before this step. Since the triangles for the lines are generated directly on the GPU, they can immediately be rendered by a custom shader.</li>
+                                </ol>
+
+                                <h2>Challenges</h2>
+                                <h3>Line Integral Convolution</h3>
+                                <p>Interrante's original work on illustrating surface shape with curvature utilizes Line Integral Convolution (LIC) to generate a curvature-directed stroke texture that can be applied to the surface of the object. I initially took this approach as well, but found that the results it generated suffered from two major issues.</p>
+                                <p>Firstly, without the use of multiple LIC textures at varying scales (which consume valuable VRAM) it is not trivial to modify the length/width of the strokes—especially not at a per-stroke level—which is necessary to maximize the perceptual effectiveness of the technique. The second issue was that LIC could not guarantee that strokes would remain fixed to the surface of the object, since it was tracing principal curvature directions throughout the entire volume of the SDF. This created aliasing artifacts causing the rendered lines to look "moth-eaten," a drawback described in the original paper.</p>
+                                <p>With the drawbacks of the LIC approach at hand, I decided to generate the curvature-directed lines with triangles instead, as this would grant me greater control over their length, width and general appearance. Combatting the issue of lines not remaining fixed to the object surface was trivial with this approach as well, as the normal and distance information already provided by the SDF could be used to project the line back onto the surface at each step in line generation.</p>
+                                <p>Not only did this approach solve all of the major issues with the LIC approach, but it also ran considerably faster, and generated geometry on the GPU which could be instantly accessed by shaders for rendering.</p>
+                                <p></p>
+                                <!-- <h3>GPU Poisson Disk Sampling</h3>
+                                <p>Another challenge I ran into while developing this technique was implementing poisson disk sampling entirely on the GPU.</p>
+                                <p>At first, I implemented poisson sampling on the CPU.</p>
+                                <p>GPU is all or nothing, it hinges on every stage of the pipeline being able to run instantly on the GPU, such that if even one stage of the pipeline could no longer be run in parallel, the entire technique breaks down and fails to run at interactive framerates.</p> -->
+                                <h3>Curvature Sampling Distance</h3>
+                                <p>The sampling distance chosen when computing the Hessian matrix from which to derive curvature is paramount to the perceptual accuracy of the final output: too large of a distance and the surface is likely to be
+                                    considered uniformly curved, too low of a distance and the slightest
+                                    of changes in the gradient from voxel-to-voxel will create artifacts
+                                    in the final image.</p>
+                                <div class="image-row width90">
+                                    <div class="image-row-column">
+                                        <figure class = "image main">
+                                            <img src="images/curvature/curvature-high.png">
+                                        </figure>
+                                    </div>
+                                    <div class="image-row-column">
+                                        <figure class = "image main">
+                                            <img src="images/curvature/curvature-low.png">
+                                        </figure>
+                                    </div>
+                                </div>
+                                <div style="margin-top: -1em;" class="image main">
+                                    <figcaption style="margin-left: 5%; margin-right: 5%;">A large sampling distance (left) vs a small sampling distance (right). Notice how a large distance leads to overly uniform curvature, while a small distance leads to slightly noisy curvature.</figcaption>
+                                </div>
+                                <p>To compensate for this reality, I've found that it's possible to pre-compute an “ideal” sampling distance
+                                    for a given SDF by calculating the coefficient of variation in first
+                                    principal curvature values for a series of increasing sampling distances
+                                    and selecting the distance for which first principal curvatures have
+                                    a coefficient of variation closest to one. Good default values for all
+                                    other rendering parameters, such as line length, line width,
+                                    and line spacing, can then be calculated as scalar multiples of said sampling
+                                    distance.</p>
+                                <h2>Demo</h2>
+                                <p>The main benefit of being an entirely GPU-based technique is that rendering parameters can be adjusted interactively in real-time:</p>
+                                <div class="image-row width90">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/curvature/interactive-curvature.gif">
+											<figcaption>Curvature Sampling Distance</figcaption>
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/curvature/interactive-length.gif">
+                                            <figcaption>Line Length</figcaption>
+										</figure>
+									</div>
+								</div>
+                                <div class="image-row width90">
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/curvature/interactive-width.gif">
+                                            <figcaption>Line Width</figcaption>
+										
+										</figure>
+									</div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/curvature/interactive-poisson.gif">
+                                            <figcaption>Poisson Spacing</figcaption>
+										</figure>
+									</div>
+								</div>
+                                <p>The perceptual effectiveness of the technique is maximized by tapering the curvature-directed lines, scaling their length and width by first principal curvature, and using poisson disk sampling, as demonstrated below:</p>
+                                <div class="image-row width90">
+                                    <div class="image-row-column">
+                                        <figure class = "image main">
+                                            <img src="images/curvature/taper-off.png">
+                                            <!-- <figcaption>No Taper</figcaption> -->
+                                        </figure>
+                                    </div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/curvature/taper-on.png">
+                                            <!-- <figcaption>Taper</figcaption> -->
+										
+										</figure>
+									</div>
+								</div>
+                                <div style="margin-top: -1em;" class="image main">
+									<figcaption style="margin-left: 5%; margin-right: 5%;">No taper (left) vs taper (right). Creates softer, more visually cohesive lines.</figcaption>
+								</div>
+                                <div class="image-row width90">
+                                    <div class="image-row-column">
+                                        <figure class = "image main">
+                                            <img src="images/curvature/scale-off.png">
+                                            <!-- <figcaption>Constant Scale</figcaption> -->
+                                        </figure>
+                                    </div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/curvature/scale-on.png">
+                                            <!-- <figcaption>Scale Length and Width by Curvature</figcaption> -->
+										</figure>
+									</div>
+								</div>
+                                <div style="margin-top: -1em;" class="image main">
+									<figcaption style="margin-left: 5%; margin-right: 5%;">Constant scale line length and width (left) vs line length and width scaled by first principal curvature. Essential for conveying the shape of the surface.</figcaption>
+								</div>
+                                <div class="image-row width90">
+                                    <div class="image-row-column">
+                                        <figure class = "image main">
+                                            <img src="images/curvature/poisson-off.png">
+                                            <!-- <figcaption>Random Sampling</figcaption> -->
+                                        </figure>
+                                    </div>
+									<div class="image-row-column">
+										<figure class = "image main">
+											<img src="images/curvature/poisson-on.png">
+                                            <!-- <figcaption>Poisson Disk Sampling</figcaption> -->
+										</figure>
+									</div>
+								</div>
+                                <div style="margin-top: -1em;" class="image main">
+									<figcaption style="margin-left: 5%; margin-right: 5%;">Random sampling (left) vs poisson disk sampling (right) for line starting positions. Necessary to avoid overlapping lines and inconsistent empty space.</figcaption>
+								</div>
+
+
+								<h2 style="margin-bottom: -0em;">Credit</h2>
+								<p style="margin-bottom: -0.25em;">The technique presented here is a modernization of Victoria Interrante's excellent work on illustrating surface shape with curvature:</p>
+                                <ul style="margin-bottom: -0.15em;">
+									<li><a href="https://doi.org/10.1145/258734.258796"><i>Illustrating surface shape in volume data via principal direction-driven 3D line integral convolution</i></a></li>
+									<li><a href="https://doi.org/10.1109/VISUAL.1996.568110"><i>Illustrating transparent surfaces with curvature-directed strokes</i></a></li>
+                                    <li><a href="https://doi.org/10.1109/2945.597794"><i>Conveying the 3D shape of smoothly curving transparent surfaces via texture</i></a></li>
+								</ul>
+                                <p style="margin-bottom: -0.25em;">The GPU poisson disk sampling algorithm used is an interpretation of the technique described in the following paper:</p>
+								<ul style="margin-bottom: -0.25em;">
+									<li><a href="https://dl.acm.org/doi/10.1145/1882261.1866188"><i>Parallel Poisson disk sampling with spectrum analysis on surfaces</i></a></li>
+								</ul>
+								<h2 style="margin-bottom: -0em;">Tools Used</h2>
+								<p style="margin-bottom: -0.25em;"><b>Languages:</b> C#, HLSL</p>
+								<p><b>Software:</b> Unity, Git, <a href="https://pypi.org/project/mesh-to-sdf/">mesh-to-sdf</a> (for generating an SDF of the Stanford Bunny)</p>
+							</div>
+							
+							<!-- <span class="image main"><img src="images/vampire/header.gif" alt="" /></span> -->
+						</div>
+					</div>
+
+				<!-- Footer -->
+					<!-- Footer -->
+					<footer id="footer">
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/footer.js"></script>  
+			<script src="assets/js/header.js"></script>
+
+	</body>
+</html>

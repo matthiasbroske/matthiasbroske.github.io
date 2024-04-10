@@ -3469,6 +3469,16 @@ input, select, textarea {
 	width: 73.25%;
 }
 
+.image-row-column-curv-demo-text
+{
+	width: 37.5%;
+}
+
+.image-row-column-curv-demo-image
+{
+	width: 62.5%;
+}
+
 .testtest
 {
 	position: relative;
