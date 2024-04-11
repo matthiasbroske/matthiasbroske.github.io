@@ -93,8 +93,23 @@
 
                                 <h2>Challenges</h2>
                                 <h3>Line Integral Convolution</h3>
-                                <p>Interrante's original work on illustrating surface shape with curvature utilizes Line Integral Convolution (LIC) to generate a curvature-directed stroke texture that can be applied to the surface of the object. I initially took this approach as well, but found that the results it generated suffered from two major issues.</p>
-                                <p>Firstly, without the use of multiple LIC textures at varying scales (which consume valuable VRAM) it is not trivial to modify the length/width of the strokes—especially not at a per-stroke level—which is necessary to maximize the perceptual effectiveness of the technique. The second issue was that LIC could not guarantee that strokes would remain fixed to the surface of the object, since it was tracing principal curvature directions throughout the entire volume of the SDF. This created aliasing artifacts causing the rendered lines to look "moth-eaten," a drawback described in the original paper.</p>
+                                <p>Interrante's original work on illustrating surface shape with curvature utilizes Line Integral Convolution (LIC) to generate a curvature-directed stroke texture that can be applied to the surface of the object. I initially took this approach as well, but found that the results it generated suffered from three major issues.</p>
+                                <p>Firstly, without the use of multiple LIC textures at varying scales (which consume valuable VRAM and increase the computational workload) it is not possible to modify the width of the strokes——especially not at a per-stroke level——which is necessary to maximize the perceptual effectiveness of the technique. Secondly, to achieve a high density of curvature-directed lines (similar what is demonstrated in many of the images throughout this page) an absurdly high-resolution 3D LIC texture would need to be used (we're talking gigabytes), further tanking memory usage and general performance. The final issue was that LIC could not guarantee that strokes would remain fixed to the surface of the object, since it was tracing principal curvature directions throughout the entire volume of the SDF. This created aliasing artifacts causing the rendered lines to look "moth-eaten," a drawback described in the original paper.</p>
+                                <div class="image-row">
+                                    <div class="image-row-column">
+                                        <figure class = "image main">
+                                            <img src="images/curvature/lic1.png">
+                                        </figure>
+                                    </div>
+                                    <div class="image-row-column">
+                                        <figure class = "image main">
+                                            <img src="images/curvature/lic2.png">
+                                        </figure>
+                                    </div>
+                                </div>
+                                <div style="margin-top: -1em;" class="image main">
+									<figcaption style="margin-left: 5%; margin-right: 5%;">Curvature-directed lines generated using LIC. Note the moth-eaten appearance. To halve the width of the lines, as done in the image on the right, eight times the texture memory and processing power is required, causing the technique to no longer reach interactive frame rates during line generation.</figcaption>
+								</div>
                                 <p>With the drawbacks of the LIC approach at hand, I decided to generate the curvature-directed lines with triangles instead, as this would grant me greater control over their length, width and general appearance. Combatting the issue of lines not remaining fixed to the object surface was trivial with this approach as well, as the normal and distance information already provided by the SDF could be used to project the line back onto the surface at each step in line generation.</p>
                                 <p>Not only did this approach solve all of the major issues with the LIC approach, but it also ran considerably faster, and generated geometry on the GPU which could be instantly accessed by shaders for rendering.</p>
                                 <p></p>
@@ -146,7 +161,7 @@
 										</figure>
 									</div>
 								</div>
-                                <div class="image-row width90">
+                                <div class="image-row">
 									<div class="image-row-column">
 										<figure class = "image main">
 											<img src="images/curvature/interactive-width.gif">
@@ -162,7 +177,7 @@
 									</div>
 								</div>
                                 <p>The perceptual effectiveness of the technique is maximized by tapering the curvature-directed lines, scaling their length and width by first principal curvature, and using poisson disk sampling, as demonstrated below:</p>
-                                <div class="image-row width90">
+                                <div class="image-row">
                                     <div class="image-row-column">
                                         <figure class = "image main">
                                             <img src="images/curvature/taper-off.png">
@@ -180,7 +195,7 @@
                                 <div style="margin-top: -1em;" class="image main">
 									<figcaption style="margin-left: 5%; margin-right: 5%;">No taper (left) vs taper (right). Creates softer, more visually cohesive lines.</figcaption>
 								</div>
-                                <div class="image-row width90">
+                                <div class="image-row">
                                     <div class="image-row-column">
                                         <figure class = "image main">
                                             <img src="images/curvature/scale-off.png">
@@ -197,7 +212,7 @@
                                 <div style="margin-top: -1em;" class="image main">
 									<figcaption style="margin-left: 5%; margin-right: 5%;">Constant scale line length and width (left) vs line length and width scaled by first principal curvature. Essential for conveying the shape of the surface.</figcaption>
 								</div>
-                                <div class="image-row width90">
+                                <div class="image-row">
                                     <div class="image-row-column">
                                         <figure class = "image main">
                                             <img src="images/curvature/poisson-off.png">
